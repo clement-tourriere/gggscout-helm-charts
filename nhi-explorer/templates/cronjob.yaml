@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "nhi-explorer.fullname" . }}
+  labels:
+    {{- include "nhi-explorer.labels" . | nindent 4 }}
+spec:
+  schedule: {{ toJson .Values.agent.schedule  }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations: {{- toJson . }}
+          {{- end }}
+          labels:
+            {{- include "nhi-explorer.labels" . | nindent 12 }}
+            {{- with .Values.podLabels }}
+            {{ toYaml . | nindent 12 }}
+            {{- end }}
+        spec:
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext: {{ toJson .Values.securityContext }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              resources: {{ toJson .Values.resources }}
+              {{- with .Values.volumeMounts }}
+              volumeMounts: {{ toJson . }}
+              {{- end }}
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets: {{ toJson . }}
+          {{- end }}
+          serviceAccountName: {{ include "nhi-explorer.serviceAccountName" . }}
+          securityContext: {{ toJson .Values.podSecurityContext }}
+          {{- with .Values.volumes }}
+          volumes: {{ toJson . }}
+          {{- end }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector: {{ toJson . }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity: {{ toJson . }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations: {{ toJson . }}
+          {{- end }}
