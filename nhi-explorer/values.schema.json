@@ -97,40 +97,43 @@
     },
     "resources": {
       "additionalProperties": false,
+      "description": "We usually recommend not to specify default resources and to leave this as a conscious\nchoice for the user. This also increases chances charts run on environments with little\nresources, such as Minikube. If you do want to specify resources, uncomment the following\nlines, adjust them as necessary, and remove the curly braces after 'resources:'.\nWe usually recommend not to specify default resources and to leave this as a conscious\nchoice for the user. This also increases chances charts run on environments with little\nresources, such as Minikube. If you do want to specify resources, uncomment the following\nlines, adjust them as necessary, and remove the curly braces after 'resources:'.\nExample:\nlimits:\n  cpu: 100m\n  memory: 128Mi\nrequests:\n  cpu: 100m\n  memory: 128Mi",
+      "properties": {
+        "limits": {
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "required": []
+            },
+            "memory": {
+              "required": []
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "requests": {
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "required": []
+            },
+            "memory": {
+              "required": []
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
       "required": [],
-      "title": "resources",
-      "type": "object"
+      "title": "resources"
     },
     "securityContext": {
       "additionalProperties": false,
+      "description": "Example:\ncapabilities:\n  drop:\n  - ALL\nreadOnlyRootFilesystem: true\nrunAsNonRoot: true\nrunAsUser: 1000",
       "required": [],
       "title": "securityContext",
-      "type": "object"
-    },
-    "service": {
-      "additionalProperties": false,
-      "description": "This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/",
-      "properties": {
-        "port": {
-          "default": 80,
-          "description": "This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports",
-          "required": [],
-          "title": "port",
-          "type": "integer"
-        },
-        "type": {
-          "default": "ClusterIP",
-          "description": "This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types",
-          "required": [],
-          "title": "type",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "port"
-      ],
-      "title": "service",
       "type": "object"
     },
     "serviceAccount": {
@@ -184,18 +187,34 @@
       "type": "array"
     },
     "volumeMounts": {
-      "description": "Additional volumeMounts on the output Deployment definition.",
+      "description": "Additional volumeMounts on the output Deployment definition.\nExample:\n- name: foo\n  mountPath: \"/etc/foo\"\n  readOnly: true",
       "items": {
-        "required": []
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "required": [],
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
       },
       "required": [],
       "title": "volumeMounts",
       "type": "array"
     },
     "volumes": {
-      "description": "Additional volumes on the output Deployment definition.",
+      "description": "Additional volumes on the output Deployment definition.\nExample:\n- name: foo\n  secret:\n    secretName: mysecret\n    optional: false",
       "items": {
-        "required": []
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "required": [],
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
       },
       "required": [],
       "title": "volumes",
@@ -212,10 +231,6 @@
     "podLabels",
     "podSecurityContext",
     "securityContext",
-    "service",
-    "resources",
-    "volumes",
-    "volumeMounts",
     "nodeSelector",
     "tolerations",
     "affinity"
