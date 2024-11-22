@@ -1,0 +1,245 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "affinity": {
+      "additionalProperties": true,
+      "required": [],
+      "title": "affinity"
+    },
+    "agent": {
+      "additionalProperties": false,
+      "description": "yaml-language-server: $schema=values.schema.json\nDefault values for nhi-explorer.",
+      "properties": {
+        "schedule": {
+          "default": "* * * * *",
+          "required": [],
+          "title": "schedule",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schedule"
+      ],
+      "title": "agent",
+      "type": "object"
+    },
+    "fullnameOverride": {
+      "default": "",
+      "required": [],
+      "title": "fullnameOverride",
+      "type": "string"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": false,
+      "description": "This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/",
+      "properties": {
+        "pullPolicy": {
+          "default": "IfNotPresent",
+          "description": "This sets the pull policy for images.",
+          "required": [],
+          "title": "pullPolicy",
+          "type": "string"
+        },
+        "repository": {
+          "default": "ghcr.io/gitguardian/gg-nhi-explorer",
+          "required": [],
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "0.2.0",
+          "description": "Overrides the image tag whose default is the chart appVersion.",
+          "required": [],
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "pullPolicy",
+        "tag"
+      ],
+      "title": "image",
+      "type": "object"
+    },
+    "imagePullSecrets": {
+      "description": "This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/\nExample:\n- name: my-secret",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "imagePullSecrets",
+      "type": "array"
+    },
+    "nameOverride": {
+      "default": "",
+      "description": "This is to override the chart name.",
+      "required": [],
+      "title": "nameOverride",
+      "type": "string"
+    },
+    "nodeSelector": {
+      "additionalProperties": true,
+      "required": [],
+      "title": "nodeSelector"
+    },
+    "podAnnotations": {
+      "additionalProperties": true,
+      "description": "This is for setting Kubernetes Annotations to a Pod.\nFor more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/",
+      "required": [],
+      "title": "podAnnotations"
+    },
+    "podLabels": {
+      "additionalProperties": true,
+      "description": "This is for setting Kubernetes Labels to a Pod.\nFor more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/",
+      "required": [],
+      "title": "podLabels"
+    },
+    "podSecurityContext": {
+      "additionalProperties": true,
+      "description": "Example:\nfsGroup: 2000",
+      "required": [],
+      "title": "podSecurityContext"
+    },
+    "resources": {
+      "additionalProperties": false,
+      "description": "We usually recommend not to specify default resources and to leave this as a conscious\nchoice for the user. This also increases chances charts run on environments with little\nresources, such as Minikube. If you do want to specify resources, uncomment the following\nlines, adjust them as necessary, and remove the curly braces after 'resources:'.\nWe usually recommend not to specify default resources and to leave this as a conscious\nchoice for the user. This also increases chances charts run on environments with little\nresources, such as Minikube. If you do want to specify resources, uncomment the following\nlines, adjust them as necessary, and remove the curly braces after 'resources:'.\nExample:\nlimits:\n  cpu: 100m\n  memory: 128Mi\nrequests:\n  cpu: 100m\n  memory: 128Mi",
+      "properties": {
+        "limits": {
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "required": []
+            },
+            "memory": {
+              "required": []
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "requests": {
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "required": []
+            },
+            "memory": {
+              "required": []
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "title": "resources"
+    },
+    "securityContext": {
+      "additionalProperties": true,
+      "description": "Example:\ncapabilities:\n  drop:\n  - ALL\nreadOnlyRootFilesystem: true\nrunAsNonRoot: true\nrunAsUser: 1000",
+      "required": [],
+      "title": "securityContext"
+    },
+    "serviceAccount": {
+      "additionalProperties": false,
+      "description": "This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/",
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Annotations to add to the service account",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "automount": {
+          "default": true,
+          "description": "Automatically mount a ServiceAccount's API credentials?",
+          "required": [],
+          "title": "automount",
+          "type": "boolean"
+        },
+        "create": {
+          "default": true,
+          "description": "Specifies whether a service account should be created",
+          "required": [],
+          "title": "create",
+          "type": "boolean"
+        },
+        "name": {
+          "default": "",
+          "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template",
+          "required": [],
+          "title": "name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "create",
+        "automount",
+        "annotations",
+        "name"
+      ],
+      "title": "serviceAccount",
+      "type": "object"
+    },
+    "tolerations": {
+      "additionalProperties": true,
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "tolerations"
+    },
+    "volumeMounts": {
+      "description": "Additional volumeMounts on the output Deployment definition.\nExample:\n- name: foo\n  mountPath: \"/etc/foo\"\n  readOnly: true",
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "required": [],
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "required": [],
+      "title": "volumeMounts",
+      "type": "array"
+    },
+    "volumes": {
+      "description": "Additional volumes on the output Deployment definition.\nExample:\n- name: foo\n  secret:\n    secretName: mysecret\n    optional: false",
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "required": [],
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "required": [],
+      "title": "volumes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "agent",
+    "image",
+    "imagePullSecrets",
+    "nameOverride",
+    "fullnameOverride",
+    "serviceAccount"
+  ],
+  "type": "object"
+}
