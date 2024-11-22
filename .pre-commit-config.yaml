@@ -17,4 +17,4 @@ repos:
 
           # list of fields to skip from being created by default
           # e.g. generate a relatively permissive schema
-          - "--skip-auto-generation=required,additionalProperties"
+          #- "--skip-auto-generation=required,additionalProperties"

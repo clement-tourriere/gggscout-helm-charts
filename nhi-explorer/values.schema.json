@@ -1,7 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
   "properties": {
     "affinity": {
+      "additionalProperties": false,
       "required": [],
       "title": "affinity",
       "type": "object"
@@ -19,6 +21,7 @@
       "type": "object"
     },
     "image": {
+      "additionalProperties": false,
       "description": "This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/",
       "properties": {
         "pullPolicy": {
@@ -42,7 +45,11 @@
           "type": "string"
         }
       },
-      "required": [],
+      "required": [
+        "repository",
+        "pullPolicy",
+        "tag"
+      ],
       "title": "image",
       "type": "object"
     },
@@ -63,38 +70,45 @@
       "type": "string"
     },
     "nodeSelector": {
+      "additionalProperties": false,
       "required": [],
       "title": "nodeSelector",
       "type": "object"
     },
     "podAnnotations": {
+      "additionalProperties": false,
       "description": "This is for setting Kubernetes Annotations to a Pod.\nFor more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/",
       "required": [],
       "title": "podAnnotations",
       "type": "object"
     },
     "podLabels": {
+      "additionalProperties": false,
       "description": "This is for setting Kubernetes Labels to a Pod.\nFor more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/",
       "required": [],
       "title": "podLabels",
       "type": "object"
     },
     "podSecurityContext": {
+      "additionalProperties": false,
       "required": [],
       "title": "podSecurityContext",
       "type": "object"
     },
     "resources": {
+      "additionalProperties": false,
       "required": [],
       "title": "resources",
       "type": "object"
     },
     "securityContext": {
+      "additionalProperties": false,
       "required": [],
       "title": "securityContext",
       "type": "object"
     },
     "service": {
+      "additionalProperties": false,
       "description": "This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/",
       "properties": {
         "port": {
@@ -112,14 +126,19 @@
           "type": "string"
         }
       },
-      "required": [],
+      "required": [
+        "type",
+        "port"
+      ],
       "title": "service",
       "type": "object"
     },
     "serviceAccount": {
+      "additionalProperties": false,
       "description": "This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/",
       "properties": {
         "annotations": {
+          "additionalProperties": false,
           "description": "Annotations to add to the service account",
           "required": [],
           "title": "annotations",
@@ -147,7 +166,12 @@
           "type": "string"
         }
       },
-      "required": [],
+      "required": [
+        "create",
+        "automount",
+        "annotations",
+        "name"
+      ],
       "title": "serviceAccount",
       "type": "object"
     },
@@ -178,6 +202,23 @@
       "type": "array"
     }
   },
-  "required": [],
+  "required": [
+    "image",
+    "imagePullSecrets",
+    "nameOverride",
+    "fullnameOverride",
+    "serviceAccount",
+    "podAnnotations",
+    "podLabels",
+    "podSecurityContext",
+    "securityContext",
+    "service",
+    "resources",
+    "volumes",
+    "volumeMounts",
+    "nodeSelector",
+    "tolerations",
+    "affinity"
+  ],
   "type": "object"
 }
