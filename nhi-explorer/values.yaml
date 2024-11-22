@@ -1,18 +1,22 @@
 ---
 # yaml-language-server: $schema=values.schema.json
 # Default values for nhi-explorer.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+
+agent:
+  schedule: '* * * * *'
+
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: nginx
+  repository: ghcr.io/gitguardian/gg-nhi-explorer
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ''
+  tag: 0.2.0
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+# Example:
+# - name: my-secret
 imagePullSecrets: []
 # This is to override the chart name.
 nameOverride: ''
@@ -30,17 +34,30 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ''
 
+# @schema
+# additionalProperties: true
+# @schema
 # This is for setting Kubernetes Annotations to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 podAnnotations: {}
 
+# @schema
+# additionalProperties: true
+# @schema
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
 
-podSecurityContext: {}
+# @schema
+# additionalProperties: true
+# @schema
+# Example:
 # fsGroup: 2000
+podSecurityContext: {}
 
+# @schema
+# additionalProperties: true
+# @schema
 # Example:
 # capabilities:
 #   drop:
@@ -93,8 +110,17 @@ volumes: []
 #   readOnly: true
 volumeMounts: []
 
+# @schema
+# additionalProperties: true
+# @schema
 nodeSelector: {}
 
+# @schema
+# additionalProperties: true
+# @schema
 tolerations: []
 
+# @schema
+# additionalProperties: true
+# @schema
 affinity: {}

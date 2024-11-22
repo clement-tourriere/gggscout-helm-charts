@@ -3,9 +3,25 @@
   "additionalProperties": false,
   "properties": {
     "affinity": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "required": [],
-      "title": "affinity",
+      "title": "affinity"
+    },
+    "agent": {
+      "additionalProperties": false,
+      "description": "yaml-language-server: $schema=values.schema.json\nDefault values for nhi-explorer.",
+      "properties": {
+        "schedule": {
+          "default": "* * * * *",
+          "required": [],
+          "title": "schedule",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schedule"
+      ],
+      "title": "agent",
       "type": "object"
     },
     "fullnameOverride": {
@@ -32,13 +48,13 @@
           "type": "string"
         },
         "repository": {
-          "default": "nginx",
+          "default": "ghcr.io/gitguardian/gg-nhi-explorer",
           "required": [],
           "title": "repository",
           "type": "string"
         },
         "tag": {
-          "default": "",
+          "default": "0.2.0",
           "description": "Overrides the image tag whose default is the chart appVersion.",
           "required": [],
           "title": "tag",
@@ -54,7 +70,7 @@
       "type": "object"
     },
     "imagePullSecrets": {
-      "description": "This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/",
+      "description": "This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/\nExample:\n- name: my-secret",
       "items": {
         "required": []
       },
@@ -70,30 +86,27 @@
       "type": "string"
     },
     "nodeSelector": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "required": [],
-      "title": "nodeSelector",
-      "type": "object"
+      "title": "nodeSelector"
     },
     "podAnnotations": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "This is for setting Kubernetes Annotations to a Pod.\nFor more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/",
       "required": [],
-      "title": "podAnnotations",
-      "type": "object"
+      "title": "podAnnotations"
     },
     "podLabels": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "This is for setting Kubernetes Labels to a Pod.\nFor more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/",
       "required": [],
-      "title": "podLabels",
-      "type": "object"
+      "title": "podLabels"
     },
     "podSecurityContext": {
-      "additionalProperties": false,
+      "additionalProperties": true,
+      "description": "Example:\nfsGroup: 2000",
       "required": [],
-      "title": "podSecurityContext",
-      "type": "object"
+      "title": "podSecurityContext"
     },
     "resources": {
       "additionalProperties": false,
@@ -130,11 +143,10 @@
       "title": "resources"
     },
     "securityContext": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Example:\ncapabilities:\n  drop:\n  - ALL\nreadOnlyRootFilesystem: true\nrunAsNonRoot: true\nrunAsUser: 1000",
       "required": [],
-      "title": "securityContext",
-      "type": "object"
+      "title": "securityContext"
     },
     "serviceAccount": {
       "additionalProperties": false,
@@ -179,12 +191,12 @@
       "type": "object"
     },
     "tolerations": {
+      "additionalProperties": true,
       "items": {
         "required": []
       },
       "required": [],
-      "title": "tolerations",
-      "type": "array"
+      "title": "tolerations"
     },
     "volumeMounts": {
       "description": "Additional volumeMounts on the output Deployment definition.\nExample:\n- name: foo\n  mountPath: \"/etc/foo\"\n  readOnly: true",
@@ -222,18 +234,12 @@
     }
   },
   "required": [
+    "agent",
     "image",
     "imagePullSecrets",
     "nameOverride",
     "fullnameOverride",
-    "serviceAccount",
-    "podAnnotations",
-    "podLabels",
-    "podSecurityContext",
-    "securityContext",
-    "nodeSelector",
-    "tolerations",
-    "affinity"
+    "serviceAccount"
   ],
   "type": "object"
 }
