@@ -8,7 +8,7 @@ repos:
         args:
           # directory to search recursively within for charts
           - --chart-search-root=.
-
+          - --add-schema-reference
           # don't analyze dependencies
           - --no-dependencies
 
@@ -18,3 +18,9 @@ repos:
           # list of fields to skip from being created by default
           # e.g. generate a relatively permissive schema
           #- "--skip-auto-generation=required,additionalProperties"
+  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+    rev: 0.2.3  # or other specific tag
+    hooks:
+      - id: yamlfmt
+        files: values.yaml
+        args: [--mapping, '2', --sequence, '2', --offset, '0']
