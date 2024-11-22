@@ -9,20 +9,28 @@
     },
     "agent": {
       "additionalProperties": false,
-      "description": "yaml-language-server: $schema=values.schema.json\nDefault values for nhi-explorer.",
+      "description": "Options for the agent configuration.",
       "properties": {
         "schedule": {
           "default": "* * * * *",
+          "description": "Schedule to run the agent on",
           "required": [],
           "title": "schedule",
+          "type": "string"
+        },
+        "version": {
+          "default": "0.2.0",
+          "description": "Specific version of the agent to use",
+          "required": [],
+          "title": "version",
           "type": "string"
         }
       },
       "required": [
+        "version",
         "schedule"
       ],
-      "title": "agent",
-      "type": "object"
+      "title": "agent"
     },
     "fullnameOverride": {
       "default": "",
@@ -52,19 +60,11 @@
           "required": [],
           "title": "repository",
           "type": "string"
-        },
-        "tag": {
-          "default": "0.2.0",
-          "description": "Overrides the image tag whose default is the chart appVersion.",
-          "required": [],
-          "title": "tag",
-          "type": "string"
         }
       },
       "required": [
         "repository",
-        "pullPolicy",
-        "tag"
+        "pullPolicy"
       ],
       "title": "image",
       "type": "object"
@@ -234,7 +234,6 @@
     }
   },
   "required": [
-    "agent",
     "image",
     "imagePullSecrets",
     "nameOverride",

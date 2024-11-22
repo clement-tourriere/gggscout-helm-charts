@@ -22,7 +22,7 @@ spec:
           containers:
             - name: {{ .Chart.Name }}
               securityContext: {{ toJson .Values.securityContext }}
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              image: "{{ .Values.image.repository }}:{{ .Values.agent.version }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               resources: {{ toJson .Values.resources }}
               {{- with .Values.volumeMounts }}

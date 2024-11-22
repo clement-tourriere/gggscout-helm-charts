@@ -2,7 +2,14 @@
 # yaml-language-server: $schema=values.schema.json
 # Default values for nhi-explorer.
 
+# @schema
+# required: [version, schedule]
+# @schema
+# Options for the agent configuration.
 agent:
+  # Specific version of the agent to use
+  version: 0.2.0
+  # Schedule to run the agent on
   schedule: '* * * * *'
 
 
@@ -11,8 +18,6 @@ image:
   repository: ghcr.io/gitguardian/gg-nhi-explorer
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.2.0
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 # Example:
