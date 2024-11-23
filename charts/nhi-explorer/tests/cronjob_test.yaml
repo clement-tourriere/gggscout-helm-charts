@@ -14,10 +14,10 @@ tests:
       of: CronJob
   - matchRegex:
       path: metadata.name
-      pattern: -inventory-agent$
+      pattern: -nhi-explorer$
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].image
-      value: ghcr.io/gitguardian/gg-inventory-agent:latest
+      value: ghcr.io/gitguardian/gg-nhi-explorer:latest
 
 - it: should set schedule
   set:
@@ -70,7 +70,7 @@ tests:
       content:
         name: config
         configMap:
-          name: RELEASE-NAME-inventory-agent
+          name: RELEASE-NAME-nhi-explorer
   - contains:
       path: spec.jobTemplate.spec.template.spec.containers[0].env
       content:

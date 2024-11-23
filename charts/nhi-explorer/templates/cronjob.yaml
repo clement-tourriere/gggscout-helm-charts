@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "inventory-agent.fullname" . }}
+  name: {{ include "nhi-explorer.fullname" . }}
   labels:
-    {{- include "inventory-agent.labels" . | nindent 4 }}
+    {{- include "nhi-explorer.labels" . | nindent 4 }}
 spec:
   schedule: {{ toJson .Values.inventory.schedule  }}
   jobTemplate:
@@ -14,7 +14,7 @@ spec:
           annotations: {{- toJson . }}
           {{- end }}
           labels:
-            {{- include "inventory-agent.labels" . | nindent 12 }}
+            {{- include "nhi-explorer.labels" . | nindent 12 }}
             {{- with .Values.podLabels }}
             {{ toYaml . | nindent 12 }}
             {{- end }}
@@ -34,7 +34,7 @@ spec:
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets: {{ toJson . }}
           {{- end }}
-          serviceAccountName: {{ include "inventory-agent.serviceAccountName" . }}
+          serviceAccountName: {{ include "nhi-explorer.serviceAccountName" . }}
           securityContext: {{ toJson .Values.podSecurityContext }}
           {{- with .Values.nodeSelector }}
           nodeSelector: {{ toJson . }}
@@ -52,4 +52,4 @@ spec:
               configMap:
                 # Provide the name of the ConfigMap containing the files you want
                 # to add to the container
-                name: {{ include "inventory-agent.fullname" . }}
+                name: {{ include "nhi-explorer.fullname" . }}

@@ -9,7 +9,7 @@
         "version": {"type": "string"},
         "schedule": {"type": "string"},
         "config": {
-          "$ref": "inventory-agent-config.schema.json"
+          "$ref": "inventory-config.schema.json"
         }
       },
       "required": ["config"]

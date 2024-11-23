@@ -16,7 +16,7 @@ tests:
       of: ConfigMap
   - matchRegex:
       path: metadata.name
-      pattern: -inventory-agent$
+      pattern: -nhi-explorer$
   - equal:
       path: data["config.yml"]
       value: |-

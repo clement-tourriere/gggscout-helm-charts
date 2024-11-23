@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "inventory-agent.name" -}}
+{{- define "nhi-explorer.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "inventory-agent.fullname" -}}
+{{- define "nhi-explorer.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "inventory-agent.chart" -}}
+{{- define "nhi-explorer.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "inventory-agent.labels" -}}
-helm.sh/chart: {{ include "inventory-agent.chart" . }}
-{{ include "inventory-agent.selectorLabels" . }}
+{{- define "nhi-explorer.labels" -}}
+helm.sh/chart: {{ include "nhi-explorer.chart" . }}
+{{ include "nhi-explorer.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "inventory-agent.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "inventory-agent.name" . }}
+{{- define "nhi-explorer.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nhi-explorer.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "inventory-agent.serviceAccountName" -}}
+{{- define "nhi-explorer.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "inventory-agent.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "nhi-explorer.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

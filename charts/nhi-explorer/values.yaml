@@ -1,18 +1,18 @@
 ---
 # yaml-language-server: $schema=values.schema.json
-# Default values for inventory-agent.
+# Default values for nhi-explorer.
 
-# Options for the agent configuration.
+# Options for the inventory configuration.
 inventory:
-  # Specific version of the agent to use
-  version: 0.2.0
-  # Schedule to run the agent on
+  # Specific version of the image to use
+  version: 0.6.0
+  # Schedule to run the collection on
   schedule: '* * * * *'
   config:
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: ghcr.io/gitguardian/gg-inventory-agent
+  repository: ghcr.io/gitguardian/gg-nhi-explorer
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
 

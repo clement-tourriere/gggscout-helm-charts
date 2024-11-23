@@ -14,7 +14,7 @@
       "minProperties": 1,
       "properties": {
         "config": {
-          "$ref": "#/definitions/inventory-agent-config.schema.json"
+          "$ref": "#/definitions/inventory-config.schema.json"
         },
         "schedule": {
           "type": "string",
@@ -40,7 +40,7 @@
     ]
   },
   "definitions": {
-    "inventory-agent-config.schema.json": {
+    "inventory-config.schema.json": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Config",
       "type": "object",
@@ -54,13 +54,13 @@
           "minProperties": 0,
           "properties": {},
           "additionalProperties": {
-            "$ref": "#/definitions/inventory-agent-config.schema.json/definitions/FetchSource"
+            "$ref": "#/definitions/inventory-config.schema.json/definitions/FetchSource"
           }
         },
         "upload": {
           "anyOf": [
             {
-              "$ref": "#/definitions/inventory-agent-config.schema.json/definitions/UploadConfig"
+              "$ref": "#/definitions/inventory-config.schema.json/definitions/UploadConfig"
             },
             {
               "enum": [
@@ -294,7 +294,7 @@
                   "description": "Auth mode: using Conjur Cloud workloads or CyberArk identity service",
                   "allOf": [
                     {
-                      "$ref": "#/definitions/inventory-agent-config.schema.json/definitions/AuthMode"
+                      "$ref": "#/definitions/inventory-config.schema.json/definitions/AuthMode"
                     }
                   ]
                 },
