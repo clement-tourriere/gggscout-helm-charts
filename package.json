@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@sourcemeta/jsonschema": "^4.3.2"
+  }
+}

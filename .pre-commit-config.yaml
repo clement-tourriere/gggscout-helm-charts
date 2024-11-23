@@ -1,0 +1,26 @@
+---
+repos:
+- repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+  rev: 0.2.3    # or other specific tag
+  hooks:
+  - id: yamlfmt
+    files: .*.(yaml|yml)
+    exclude: templates/
+    args: [--mapping, '2', --sequence, '2', --offset, '0']
+- repo: local
+  hooks:
+  - entry: ./scripts/bundle_schemas.sh
+    id: schema-bundle
+    language: node
+    name: schema-bundle
+    pass_filenames: false
+  - entry: ./scripts/test.sh
+    id: helm-unittest
+    language: script
+    name: helm-unittest
+    pass_filenames: false
+  - entry: ./scripts/lint.sh
+    id: helm-lint
+    language: script
+    name: helm-lint
+    pass_filenames: false

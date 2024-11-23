@@ -1,0 +1,25 @@
+---
+# Test docs: https://github.com/helm-unittest/helm-unittest/blob/main/DOCUMENT.md
+suite: test configmap
+values:
+- ../test_values.yaml
+templates:
+- configmap.yaml
+tests:
+- it: should work
+  set:
+    inventory.config.sources:
+      kube:
+        type: k8s
+  asserts:
+  - isKind:
+      of: ConfigMap
+  - matchRegex:
+      path: metadata.name
+      pattern: -inventory-agent$
+  - equal:
+      path: data["config.yml"]
+      value: |-
+        sources:
+          kube:
+            type: k8s

@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=values.schema.json
+
+inventory:
+  config:
+    sources: {}
+
+imagePullSecrets:
+- name: ghcr

@@ -1,0 +1,284 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "inventory-agent-config.schema.json",
+  "title": "Config",
+  "type": "object",
+  "required": [
+    "sources"
+  ],
+  "properties": {
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/FetchSource"
+      }
+    },
+    "upload": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/UploadConfig"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "AuthMode": {
+      "type": "string",
+      "enum": [
+        "CyberArk",
+        "Workload"
+      ]
+    },
+    "FetchSource": {
+      "type": "object",
+      "oneOf": [
+        {
+          "description": "HashiCorp Vault fetcher",
+          "type": "object",
+          "required": [
+            "fetch_all_versions",
+            "type",
+            "vault_address"
+          ],
+          "properties": {
+            "auth_token": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "auth_token_file": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "fetch_all_versions": {
+              "type": "boolean"
+            },
+            "path": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "hashicorpvault"
+              ]
+            },
+            "vault_address": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        {
+          "description": "Kubernetes fetcher",
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "context": {
+              "description": "Kubernetes context to use",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "namespaces": {
+              "description": "Namespaces to read from",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "k8s"
+              ]
+            }
+          }
+        },
+        {
+          "description": "AWS Secrets Manager fetcher",
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "profile_name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "awssecretsmanager"
+              ]
+            }
+          }
+        },
+        {
+          "description": "GCP Secret Manager fetcher",
+          "type": "object",
+          "required": [
+            "fetch_all_versions",
+            "service_account_key_file",
+            "type"
+          ],
+          "properties": {
+            "fetch_all_versions": {
+              "type": "boolean"
+            },
+            "projects": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "service_account_key_file": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "gcpsecretmanager"
+              ]
+            }
+          }
+        },
+        {
+          "description": "Azure secret vault fetcher",
+          "type": "object",
+          "required": [
+            "fetch_all_versions",
+            "type",
+            "vault_address"
+          ],
+          "properties": {
+            "fetch_all_versions": {
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "azurekeyvault"
+              ]
+            },
+            "vault_address": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        {
+          "description": "GitLab CI fetcher",
+          "type": "object",
+          "required": [
+            "token",
+            "type",
+            "url"
+          ],
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "gitlabci"
+              ]
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        {
+          "description": "Conjur Cloud vault fetcher",
+          "type": "object",
+          "required": [
+            "auth_mode",
+            "client_id",
+            "client_secret",
+            "conjur_url",
+            "fetch_all_versions",
+            "tenant_id",
+            "type"
+          ],
+          "properties": {
+            "auth_mode": {
+              "description": "Auth mode: using Conjur Cloud workloads or CyberArk identity service",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AuthMode"
+                }
+              ]
+            },
+            "client_id": {
+              "description": "CyberArk client ID or Conjur workload Client ID",
+              "type": "string"
+            },
+            "client_secret": {
+              "description": "Secret for authenticating",
+              "type": "string"
+            },
+            "conjur_url": {
+              "description": "The Conjur Cloud instance URL",
+              "type": "string",
+              "format": "uri"
+            },
+            "fetch_all_versions": {
+              "description": "Fetch all secret versions",
+              "type": "boolean"
+            },
+            "tenant_id": {
+              "description": "Cyberark Cloud tenant ID",
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "conjurcloud"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "UploadConfig": {
+      "type": "object",
+      "required": [
+        "api_token",
+        "endpoint"
+      ],
+      "properties": {
+        "api_token": {
+          "description": "API Token to authenticate with",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "Hostname or endpoint Example: https://gitguardian.internal/",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  }
+}

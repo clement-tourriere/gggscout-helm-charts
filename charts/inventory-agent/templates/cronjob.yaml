@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "inventory-agent.fullname" . }}
+  labels:
+    {{- include "inventory-agent.labels" . | nindent 4 }}
+spec:
+  schedule: {{ toJson .Values.inventory.schedule  }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations: {{- toJson . }}
+          {{- end }}
+          labels:
+            {{- include "inventory-agent.labels" . | nindent 12 }}
+            {{- with .Values.podLabels }}
+            {{ toYaml . | nindent 12 }}
+            {{- end }}
+        spec:
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext: {{ toJson .Values.securityContext }}
+              image: "{{ .Values.image.repository }}:{{ .Values.inventory.version }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              resources: {{ toJson .Values.resources }}
+              env:
+                - name: INVENTORY_CONFIG_PATH
+                  value: /etc/inventory/config.yml
+              volumeMounts:
+                - name: config
+                  mountPath: /etc/inventory
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets: {{ toJson . }}
+          {{- end }}
+          serviceAccountName: {{ include "inventory-agent.serviceAccountName" . }}
+          securityContext: {{ toJson .Values.podSecurityContext }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector: {{ toJson . }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity: {{ toJson . }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations: {{ toJson . }}
+          {{- end }}
+          restartPolicy: {{ .Values.restartPolicy }}
+
+          volumes:
+            - name: config
+              configMap:
+                # Provide the name of the ConfigMap containing the files you want
+                # to add to the container
+                name: {{ include "inventory-agent.fullname" . }}
