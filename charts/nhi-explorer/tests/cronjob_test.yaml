@@ -76,3 +76,23 @@ tests:
       content:
         name: INVENTORY_CONFIG_PATH
         value: /etc/inventory/config.yml
+
+- it: should set env and envFrom
+  set:
+    envFrom:
+    - secretRef:
+        name: my-secret
+    env:
+    - name: foo
+      value: bar
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].envFrom
+      content:
+        secretRef:
+          name: my-secret
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].env
+      content:
+        name: foo
+        value: bar

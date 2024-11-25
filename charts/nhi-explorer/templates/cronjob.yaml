@@ -24,10 +24,16 @@ spec:
               securityContext: {{ toJson .Values.securityContext }}
               image: "{{ .Values.image.repository }}:{{ .Values.inventory.version }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
+              args:
+                - from-config
               resources: {{ toJson .Values.resources }}
+              envFrom: {{ toJson .Values.envFrom }}
               env:
                 - name: INVENTORY_CONFIG_PATH
                   value: /etc/inventory/config.yml
+              {{- range .Values.env }}
+                - {{ toJson . }}
+              {{- end }}
               volumeMounts:
                 - name: config
                   mountPath: /etc/inventory
