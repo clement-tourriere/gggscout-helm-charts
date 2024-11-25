@@ -1,0 +1,8 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      vault-secrets:
+        type: k8s

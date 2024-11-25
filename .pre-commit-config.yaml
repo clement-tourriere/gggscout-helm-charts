@@ -6,7 +6,7 @@ repos:
   - id: yamlfmt
     files: .*.(yaml|yml)
     exclude: (templates|.github)/
-    args: [--mapping, '2', --sequence, '2', --offset, '0']
+    args: [--mapping, '2', --sequence, '2', --offset, '0', --preserve-quotes, --preserve_null]
 - repo: local
   hooks:
   - entry: ./scripts/bundle_schemas.sh
