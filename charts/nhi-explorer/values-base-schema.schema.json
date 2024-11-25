@@ -6,7 +6,6 @@
       "additionalProperties": false,
       "type": "object",
       "properties": {
-        "upload": {"type": "boolean"},
         "version": {"type": "string"},
         "schedule": {"type": "string"},
         "config": {

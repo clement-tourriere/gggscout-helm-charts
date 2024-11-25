@@ -29,17 +29,17 @@ inventory:
         auth_token: "${HASHICORP_VAULT_TOKEN}"
         fetch_all_versions: true
         path: "secret/"
-  # To upload, set the upload URL and tokens. Ensure the endpoint path ends with /v1 
-  upload:
-    endpoint: "https://your-gg-instance/v1"
-    api_token: "${GG_API_TOKEN}"
+      # To upload, set the upload URL and tokens. Ensure the endpoint path ends with /v1 
+      upload:
+        endpoint: "https://your-gg-instance/v1"
+        api_token: "${GG_API_TOKEN}"
 
 # This needs to be created separately, and contain the following keys:
 # - `HASHICORP_VAULT_TOKEN` - the hashicorp vault token to use
 # - `GG_API_TOKEN` - the GitGuardian token to send results with
 envFrom:
   - secretRef:
-      name: hashicorpvault-secrets
+      name: inventory-explorer-secrets
 ```
 
 Other examples can be found in [charts/nhi-explorer/examples](charts/nhi-explorer/examples).
