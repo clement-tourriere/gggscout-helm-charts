@@ -3,6 +3,16 @@ entries:
   nhi-explorer:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-11-25T15:24:53.820427438Z"
+    description: A Helm chart for Kubernetes
+    digest: d8977ac51a3c7be0abdb71f5d5b4fc4eee6c06493c1007fa6cc66b19a678238f
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.1/nhi-explorer-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-11-25T13:43:48.437013146Z"
     description: A Helm chart for Kubernetes
     digest: c9b13f007df50e82aefe77bfc8611aee9b9699690b500246626e26ba447168fd
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.0/nhi-explorer-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-25T13:43:48.437046348Z"
+generated: "2024-11-25T15:24:53.820437216Z"
