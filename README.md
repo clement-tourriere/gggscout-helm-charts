@@ -34,8 +34,9 @@ inventory:
     endpoint: "https://your-gg-instance/v1"
     api_token: "${GG_API_TOKEN}"
 
-# This needs to be created separately, and contain a `HASHICORP_VAULT_TOKEN` key with 
-# the token to use.
+# This needs to be created separately, and contain the following keys:
+# - `HASHICORP_VAULT_TOKEN` - the hashicorp vault token to use
+# - `GG_API_TOKEN` - the GitGuardian token to send results with
 envFrom:
   - secretRef:
       name: hashicorpvault-secrets
