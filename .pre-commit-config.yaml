@@ -5,7 +5,7 @@ repos:
   hooks:
   - id: yamlfmt
     files: .*.(yaml|yml)
-    exclude: templates/
+    exclude: (templates|.github)/
     args: [--mapping, '2', --sequence, '2', --offset, '0']
 - repo: local
   hooks:
