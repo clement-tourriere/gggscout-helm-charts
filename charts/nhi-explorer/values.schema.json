@@ -20,6 +20,12 @@
           "type": "string",
           "minLength": 0
         },
+        "upload": {
+          "enum": [
+            false,
+            true
+          ]
+        },
         "version": {
           "type": "string",
           "minLength": 0

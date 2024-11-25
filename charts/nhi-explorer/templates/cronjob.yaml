@@ -25,7 +25,11 @@ spec:
               image: "{{ .Values.image.repository }}:{{ .Values.inventory.version }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               args:
+                {{- if .Values.inventory.upload }}
+                - fetch-from-config-and-send
+                {{- else }}
                 - from-config
+                {{- end }}
               resources: {{ toJson .Values.resources }}
               envFrom: {{ toJson .Values.envFrom }}
               env:
