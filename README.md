@@ -29,6 +29,10 @@ inventory:
         auth_token: "${HASHICORP_VAULT_TOKEN}"
         fetch_all_versions: true
         path: "secret/"
+  # To upload, set the upload URL and tokens. Ensure the endpoint path ends with /v1 
+  upload:
+    endpoint: "https://your-gg-instance/v1"
+    api_token: "${GG_API_TOKEN}"
 
 # This needs to be created separately, and contain a `HASHICORP_VAULT_TOKEN` key with 
 # the token to use.

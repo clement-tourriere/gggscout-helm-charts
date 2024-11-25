@@ -96,3 +96,23 @@ tests:
       content:
         name: foo
         value: bar
+
+- it: should use the upload command if set
+  set:
+    inventory.config.upload.api_token: "foobar"
+    inventory.config.upload.endpoint: "https://some-url.com"
+  asserts:
+  - equal:
+      path: spec.jobTemplate.spec.template.spec.containers[0].args
+      value:
+      - fetch-from-config-and-send
+
+- it: should use the fetch command if no upload is set
+  set:
+    inventory.config.upload: null
+  asserts:
+  - equal:
+      path: spec.jobTemplate.spec.template.spec.containers[0].args
+      value:
+      - from-config
+

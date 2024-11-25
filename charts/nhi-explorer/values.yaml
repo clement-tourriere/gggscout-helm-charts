@@ -6,7 +6,6 @@
 inventory:
   # Specific version of the image to use
   version: 0.6.1
-  upload: false
   # Schedule to run the collection on
   schedule: '*/15 * * * *'
   # Need to add this explicitly

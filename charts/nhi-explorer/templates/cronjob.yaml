@@ -25,7 +25,7 @@ spec:
               image: "{{ .Values.image.repository }}:{{ .Values.inventory.version }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               args:
-                {{- if .Values.inventory.upload }}
+                {{- if ne .Values.inventory.config.upload nil }}
                 - fetch-from-config-and-send
                 {{- else }}
                 - from-config
