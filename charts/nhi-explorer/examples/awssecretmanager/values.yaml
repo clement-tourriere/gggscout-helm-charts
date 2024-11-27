@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      awssecretsmanager:
+        type: awssecretsmanager
+        profile_name: default # AWS profile name or null

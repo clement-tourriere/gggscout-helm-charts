@@ -1,0 +1,12 @@
+---
+# Test docs: https://github.com/helm-unittest/helm-unittest/blob/main/DOCUMENT.md
+suite: test clusterrolebinding
+values:
+- ../test_values.yaml
+templates:
+- clusterrolebinding.yaml
+tests:
+- it: should have the correct kind for ClusterRoleBinding
+  asserts:
+  - isAPIVersion:
+      of: rbac.authorization.k8s.io/v1

@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      gitlab:
+        type: gitlabci
+        token: gitlab-token # Replace with the GitLab CI token
+        url: https://gitlab.com # GitLab URL

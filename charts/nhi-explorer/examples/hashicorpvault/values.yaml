@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      hashicorpvault:
+        type: hashicorpvault
+        vault_address: https://vault.example.com # Replace with the actual Vault address
+        auth_token: null # Use a token or null
+        auth_token_file: null # Path to token file or null
+        fetch_all_versions: false # Fetch all versions of secrets or not
+        path: null # Vault path or null
