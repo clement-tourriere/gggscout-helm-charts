@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      kubernetes:
+        type: k8s
+        context: null # Kubernetes context or null
+        namespaces: # List of namespaces or null
+        - default
+        - kube-system

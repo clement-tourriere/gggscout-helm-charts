@@ -8,9 +8,12 @@ templates:
 tests:
 - it: should work
   set:
-    inventory.config.sources:
-      kube:
-        type: k8s
+    inventory:
+      config:
+        sources:
+          kube:
+            type: k8s
+        upload: null
   asserts:
   - isKind:
       of: ConfigMap
@@ -23,3 +26,4 @@ tests:
         sources:
           kube:
             type: k8s
+        upload: null

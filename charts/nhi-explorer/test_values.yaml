@@ -4,6 +4,10 @@
 inventory:
   config:
     sources: {}
+    upload: null
 
 imagePullSecrets:
 - name: ghcr
+
+serviceAccount:
+  create: true
