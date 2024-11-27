@@ -116,3 +116,12 @@ tests:
       value:
       - from-config
 
+- it: should use the right log level
+  set:
+    inventory.config.log_level: info
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].env
+      content:
+        name: RUST_LOG
+        value: info

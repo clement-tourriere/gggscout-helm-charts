@@ -16,6 +16,9 @@
         "config": {
           "$ref": "#/definitions/inventory-config.schema.json"
         },
+        "log_level": {
+          "$ref": "#/definitions/inventory-log-level.schema.json"
+        },
         "schedule": {
           "type": "string",
           "minLength": 0
@@ -354,6 +357,17 @@
           }
         }
       }
+    },
+    "inventory-log-level.schema.json": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "LogLevel",
+      "enum": [
+        "trace",
+        "debug",
+        "info",
+        "warn",
+        "error"
+      ]
     }
   }
 }

@@ -8,6 +8,9 @@
       "properties": {
         "version": {"type": "string"},
         "schedule": {"type": "string"},
+        "log_level": {
+          "$ref": "inventory-log-level.schema.json"
+        },
         "config": {
           "$ref": "inventory-config.schema.json"
         }

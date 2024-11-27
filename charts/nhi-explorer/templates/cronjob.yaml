@@ -35,6 +35,10 @@ spec:
               env:
                 - name: INVENTORY_CONFIG_PATH
                   value: /etc/inventory/config.yml
+              {{- if .Values.inventory.log_level }}
+                - name: RUST_LOG
+                  value: {{ .Values.inventory.log_level }}
+              {{- end}}
               {{- range .Values.env }}
                 - {{ toJson . }}
               {{- end }}
