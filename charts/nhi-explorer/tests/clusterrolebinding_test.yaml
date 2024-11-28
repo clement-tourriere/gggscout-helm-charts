@@ -5,8 +5,25 @@ values:
 - ../test_values.yaml
 templates:
 - clusterrolebinding.yaml
+set:
+  clusterRole.create: true
+  serviceAccount.create: true
 tests:
 - it: should have the correct kind for ClusterRoleBinding
   asserts:
   - isAPIVersion:
       of: rbac.authorization.k8s.io/v1
+- it: "does not create a ClusterRoleBinding if clusterRole.create is false"
+  set:
+    clusterRole.create: false
+    serviceAccount.create: true
+  asserts:
+  - hasDocuments:
+      count: 0
+- it: "does not create a ClusterRoleBinding if serviceAccount.create is false"
+  set:
+    clusterRole.create: true
+    serviceAccount.create: false
+  asserts:
+  - hasDocuments:
+      count: 0
