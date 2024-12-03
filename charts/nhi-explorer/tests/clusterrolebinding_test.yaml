@@ -8,11 +8,17 @@ templates:
 set:
   clusterRole.create: true
   serviceAccount.create: true
+  namespace: nhi-explorer
 tests:
 - it: should have the correct kind for ClusterRoleBinding
   asserts:
   - isAPIVersion:
       of: rbac.authorization.k8s.io/v1
+- it: should have the correct namespace
+  asserts:
+  - equal:
+      path: subjects[0].namespace
+      value: nhi-explorer
 - it: "does not create a ClusterRoleBinding if clusterRole.create is false"
   set:
     clusterRole.create: false
