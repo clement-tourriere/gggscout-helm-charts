@@ -14,7 +14,7 @@ Then install the explorer, with a values file (examples below):
 helm upgrade explorer gg-nhi/nhi-explorer --install --values values.yml
 ```
 
-An example values file that fetches from HashiCorp Vault:
+An example values file that fetches from HashiCorp Vault and GitLab CI:
 
 ```yaml
 inventory:
@@ -29,6 +29,10 @@ inventory:
         auth_token: "${HASHICORP_VAULT_TOKEN}"
         fetch_all_versions: true
         path: "secret/"
+      gitlabci:
+        type: gitlabci
+        token: "${GITLAB_TOKEN}"
+        url: "https://gitlab.gitguardian.ovh"
     # To upload, set the upload URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     upload:
