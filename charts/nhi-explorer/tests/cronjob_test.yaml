@@ -17,7 +17,7 @@ tests:
       pattern: -nhi-explorer$
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].image
-      value: ghcr.io/gitguardian/nhi-explorer-helm-charts/explorer:latest
+      value: ghcr.io/gitguardian/gg-nhi-explorer/chainguard:latest
 
 - it: should set schedule
   set:
