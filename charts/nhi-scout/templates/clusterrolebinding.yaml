@@ -3,15 +3,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "nhi-explorer.fullname" . }}
+  name: {{ include "nhi-scout.fullname" . }}
   labels:
-    {{- include "nhi-explorer.labels" . | nindent 4 }}
+    {{- include "nhi-scout.labels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "nhi-explorer.fullname" . }}
+    name: {{ include "nhi-scout.fullname" . }}
     namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ include "nhi-explorer.fullname" . }}
+  name: {{ include "nhi-scout.fullname" . }}
   apiGroup: rbac.authorization.k8s.io
 {{- end }}

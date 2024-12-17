@@ -14,7 +14,7 @@ tests:
       of: ClusterRole
   - matchRegex:
       path: metadata.name
-      pattern: -nhi-explorer$
+      pattern: -nhi-scout$
 - it: "does not create a ClusterRole"
   set:
     clusterRole.create: false

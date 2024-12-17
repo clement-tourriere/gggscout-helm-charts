@@ -14,10 +14,10 @@ tests:
       of: CronJob
   - matchRegex:
       path: metadata.name
-      pattern: -nhi-explorer$
+      pattern: -nhi-scout$
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].image
-      value: ghcr.io/gitguardian/gg-nhi-explorer/chainguard:latest
+      value: ghcr.io/gitguardian/gitguardian-nhi-scout/chainguard:latest
 
 - it: should set schedule
   set:
@@ -70,7 +70,7 @@ tests:
       content:
         name: config
         configMap:
-          name: RELEASE-NAME-nhi-explorer
+          name: RELEASE-NAME-nhi-scout
   - contains:
       path: spec.jobTemplate.spec.template.spec.containers[0].env
       content:
@@ -97,24 +97,24 @@ tests:
         name: foo
         value: bar
 
-- it: should use the upload command if set
+- it: should use the gitguardian command if set
   set:
-    inventory.config.upload.api_token: "foobar"
-    inventory.config.upload.endpoint: "https://some-url.com"
+    inventory.config.gitguardian.api_token: "foobar"
+    inventory.config.gitguardian.endpoint: "https://some-url.com"
   asserts:
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].args
       value:
-      - fetch-from-config-and-send
+      - fetch-and-send
 
 - it: should use the fetch command if no upload is set
   set:
-    inventory.config.upload: null
+    inventory.config.gitguardian: null
   asserts:
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].args
       value:
-      - from-config
+      - fetch
 
 - it: should use the right log level
   set:

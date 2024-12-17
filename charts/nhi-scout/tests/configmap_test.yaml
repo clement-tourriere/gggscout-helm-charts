@@ -13,17 +13,19 @@ tests:
         sources:
           kube:
             type: k8s
-        upload: null
+            name: my-cluster
+        gitguardian: null
   asserts:
   - isKind:
       of: ConfigMap
   - matchRegex:
       path: metadata.name
-      pattern: -nhi-explorer$
+      pattern: -nhi-scout$
   - equal:
       path: data["config.yml"]
       value: |-
+        gitguardian: null
         sources:
           kube:
+            name: my-cluster
             type: k8s
-        upload: null
