@@ -5,7 +5,7 @@
 Add the repository to Helm with:
 
 ```shell
-helm repo add gg-nhi https://gitguardian.github.io/gitguardian-nhi-scout-helm-charts
+helm repo add gg-nhi https://gitguardian.github.io/nhi-scout-helm-charts
 ```
 
 Then install the scout, with a values file (examples below):
