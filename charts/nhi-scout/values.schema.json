@@ -52,18 +52,10 @@
       ],
       "minProperties": 1,
       "properties": {
-        "sources": {
-          "type": "object",
-          "minProperties": 0,
-          "properties": {},
-          "additionalProperties": {
-            "$ref": "#/definitions/inventory-config.schema.json/definitions/FetchSource"
-          }
-        },
-        "upload": {
+        "gitguardian": {
           "anyOf": [
             {
-              "$ref": "#/definitions/inventory-config.schema.json/definitions/UploadConfig"
+              "$ref": "#/definitions/inventory-config.schema.json/definitions/GitGuardianConfig"
             },
             {
               "enum": [
@@ -71,6 +63,14 @@
               ]
             }
           ]
+        },
+        "sources": {
+          "type": "object",
+          "minProperties": 0,
+          "properties": {},
+          "additionalProperties": {
+            "$ref": "#/definitions/inventory-config.schema.json/definitions/FetcherConfig"
+          }
         }
       },
       "definitions": {
@@ -80,8 +80,7 @@
             "Workload"
           ]
         },
-        "FetchSource": {
-          "type": "object",
+        "FetcherConfig": {
           "oneOf": [
             {
               "description": "HashiCorp Vault fetcher",
@@ -116,6 +115,14 @@
                     true
                   ]
                 },
+                "mode": {
+                  "default": "read",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                    }
+                  ]
+                },
                 "path": {
                   "type": [
                     "string",
@@ -133,9 +140,10 @@
               "description": "Kubernetes fetcher",
               "type": "object",
               "required": [
+                "name",
                 "type"
               ],
-              "minProperties": 1,
+              "minProperties": 2,
               "properties": {
                 "type": {
                   "enum": [
@@ -149,8 +157,20 @@
                     "null"
                   ]
                 },
+                "kubeconfig": {
+                  "description": "Path to the kubernetes kubeconfig to use",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "name": {
+                  "description": "Kubernetes cluster name",
+                  "type": "string",
+                  "minLength": 0
+                },
                 "namespaces": {
-                  "description": "Namespaces to read from",
+                  "description": "Namespaces to read from. Can be a literal string or a glob expression to match multiple namespaces.",
                   "type": [
                     "array",
                     "null"
@@ -175,11 +195,29 @@
                     "awssecretsmanager"
                   ]
                 },
+                "mode": {
+                  "default": "read",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                    }
+                  ]
+                },
                 "profile_name": {
                   "type": [
                     "string",
                     "null"
                   ]
+                },
+                "regions": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": "string",
+                    "minLength": 0
+                  }
                 }
               }
             },
@@ -204,6 +242,14 @@
                     true
                   ]
                 },
+                "mode": {
+                  "default": "read",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                    }
+                  ]
+                },
                 "projects": {
                   "type": [
                     "array",
@@ -225,8 +271,8 @@
               "type": "object",
               "required": [
                 "fetch_all_versions",
-                "type",
-                "vault_address"
+                "subscription_id",
+                "type"
               ],
               "minProperties": 3,
               "properties": {
@@ -241,9 +287,16 @@
                     true
                   ]
                 },
-                "vault_address": {
+                "mode": {
+                  "default": "read",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                    }
+                  ]
+                },
+                "subscription_id": {
                   "type": "string",
-                  "format": "uri",
                   "minLength": 0
                 }
               }
@@ -324,6 +377,14 @@
                     true
                   ]
                 },
+                "mode": {
+                  "default": "read",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                    }
+                  ]
+                },
                 "tenant_id": {
                   "description": "Cyberark Cloud tenant ID",
                   "type": "string",
@@ -331,11 +392,9 @@
                 }
               }
             }
-          ],
-          "minProperties": 0,
-          "properties": {}
+          ]
         },
-        "UploadConfig": {
+        "GitGuardianConfig": {
           "type": "object",
           "required": [
             "api_token",
@@ -355,6 +414,13 @@
               "minLength": 0
             }
           }
+        },
+        "Mode": {
+          "enum": [
+            "read",
+            "write",
+            "read/write"
+          ]
         }
       }
     },

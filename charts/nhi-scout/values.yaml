@@ -1,11 +1,11 @@
 ---
 # yaml-language-server: $schema=values.schema.json
-# Default values for nhi-explorer.
+# Default values for nhi-scout.
 
 # Options for the inventory configuration.
 inventory:
   # Specific version of the image to use
-  version: 0.7.1
+  version: 0.8.1
   # Schedule to run the collection on
   schedule: "*/15 * * * *"
   log_level: info
@@ -14,7 +14,7 @@ inventory:
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: ghcr.io/gitguardian/gg-nhi-explorer/chainguard
+  repository: ghcr.io/gitguardian/gitguardian-nhi-scout/chainguard
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
 

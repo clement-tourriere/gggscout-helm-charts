@@ -5,13 +5,13 @@
 Add the repository to Helm with:
 
 ```shell
-helm repo add gg-nhi https://gitguardian.github.io/nhi-explorer-helm-charts
+helm repo add gg-nhi https://gitguardian.github.io/gitguardian-nhi-scout-helm-charts
 ```
 
-Then install the explorer, with a values file (examples below):
+Then install the scout, with a values file (examples below):
 
 ```shell
-helm upgrade explorer gg-nhi/nhi-explorer --install --values values.yml
+helm upgrade scout gg-nhi/nhi-scout --install --values values.yml
 ```
 
 An example values file that fetches from HashiCorp Vault and GitLab CI:
@@ -33,9 +33,9 @@ inventory:
         type: gitlabci
         token: "${GITLAB_TOKEN}"
         url: "https://gitlab.gitguardian.ovh"
-    # To upload, set the upload URL and tokens. Ensure the endpoint path ends with /v1
+    # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
-    upload:
+    gitguardian:
       endpoint: "https://your-gg-instance/v1"
       api_token: "${GG_API_TOKEN}"
 
@@ -44,10 +44,10 @@ inventory:
 # - `GG_API_TOKEN` - the GitGuardian token to send results with
 envFrom:
   - secretRef:
-      name: inventory-explorer-secrets
+      name: gitguardian-nhi-scout-secrets
 ```
 
-Other examples can be found in [charts/nhi-explorer/examples](charts/nhi-explorer/examples).
+Other examples can be found in [charts/nhi-scout/examples](charts/nhi-scout/examples).
 
 ## Development
 

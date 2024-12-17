@@ -3,9 +3,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "nhi-explorer.fullname" . }}
+  name: {{ include "nhi-scout.fullname" . }}
   labels:
-    {{- include "nhi-explorer.labels" . | nindent 4 }}
+    {{- include "nhi-scout.labels" . | nindent 4 }}
 rules:
   - apiGroups: [""]
     resources: ["namespaces"]

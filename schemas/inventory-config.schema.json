@@ -7,21 +7,21 @@
     "sources"
   ],
   "properties": {
-    "sources": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/FetchSource"
-      }
-    },
-    "upload": {
+    "gitguardian": {
       "anyOf": [
         {
-          "$ref": "#/definitions/UploadConfig"
+          "$ref": "#/definitions/GitGuardianConfig"
         },
         {
           "type": "null"
         }
       ]
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/FetcherConfig"
+      }
     }
   },
   "definitions": {
@@ -32,8 +32,7 @@
         "Workload"
       ]
     },
-    "FetchSource": {
-      "type": "object",
+    "FetcherConfig": {
       "oneOf": [
         {
           "description": "HashiCorp Vault fetcher",
@@ -59,6 +58,14 @@
             "fetch_all_versions": {
               "type": "boolean"
             },
+            "mode": {
+              "default": "read",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Mode"
+                }
+              ]
+            },
             "path": {
               "type": [
                 "string",
@@ -81,6 +88,7 @@
           "description": "Kubernetes fetcher",
           "type": "object",
           "required": [
+            "name",
             "type"
           ],
           "properties": {
@@ -91,8 +99,19 @@
                 "null"
               ]
             },
+            "kubeconfig": {
+              "description": "Path to the kubernetes kubeconfig to use",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "name": {
+              "description": "Kubernetes cluster name",
+              "type": "string"
+            },
             "namespaces": {
-              "description": "Namespaces to read from",
+              "description": "Namespaces to read from. Can be a literal string or a glob expression to match multiple namespaces.",
               "type": [
                 "array",
                 "null"
@@ -116,11 +135,28 @@
             "type"
           ],
           "properties": {
+            "mode": {
+              "default": "read",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Mode"
+                }
+              ]
+            },
             "profile_name": {
               "type": [
                 "string",
                 "null"
               ]
+            },
+            "regions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
             },
             "type": {
               "type": "string",
@@ -141,6 +177,14 @@
           "properties": {
             "fetch_all_versions": {
               "type": "boolean"
+            },
+            "mode": {
+              "default": "read",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Mode"
+                }
+              ]
             },
             "projects": {
               "type": [
@@ -167,22 +211,29 @@
           "type": "object",
           "required": [
             "fetch_all_versions",
-            "type",
-            "vault_address"
+            "subscription_id",
+            "type"
           ],
           "properties": {
             "fetch_all_versions": {
               "type": "boolean"
+            },
+            "mode": {
+              "default": "read",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Mode"
+                }
+              ]
+            },
+            "subscription_id": {
+              "type": "string"
             },
             "type": {
               "type": "string",
               "enum": [
                 "azurekeyvault"
               ]
-            },
-            "vault_address": {
-              "type": "string",
-              "format": "uri"
             }
           }
         },
@@ -248,6 +299,14 @@
               "description": "Fetch all secret versions",
               "type": "boolean"
             },
+            "mode": {
+              "default": "read",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Mode"
+                }
+              ]
+            },
             "tenant_id": {
               "description": "Cyberark Cloud tenant ID",
               "type": "string"
@@ -262,7 +321,7 @@
         }
       ]
     },
-    "UploadConfig": {
+    "GitGuardianConfig": {
       "type": "object",
       "required": [
         "api_token",
@@ -279,6 +338,14 @@
           "format": "uri"
         }
       }
+    },
+    "Mode": {
+      "type": "string",
+      "enum": [
+        "read",
+        "write",
+        "read/write"
+      ]
     }
   }
 }

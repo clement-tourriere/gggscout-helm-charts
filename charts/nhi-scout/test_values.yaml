@@ -4,7 +4,7 @@
 inventory:
   config:
     sources: {}
-    upload: null
+    gitguardian: null
 
 imagePullSecrets:
 - name: ghcr

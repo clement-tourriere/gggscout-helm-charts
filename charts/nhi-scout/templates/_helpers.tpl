@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "nhi-explorer.name" -}}
+{{- define "nhi-scout.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "nhi-explorer.fullname" -}}
+{{- define "nhi-scout.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "nhi-explorer.chart" -}}
+{{- define "nhi-scout.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "nhi-explorer.labels" -}}
-helm.sh/chart: {{ include "nhi-explorer.chart" . }}
-{{ include "nhi-explorer.selectorLabels" . }}
+{{- define "nhi-scout.labels" -}}
+helm.sh/chart: {{ include "nhi-scout.chart" . }}
+{{ include "nhi-scout.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "nhi-explorer.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nhi-explorer.name" . }}
+{{- define "nhi-scout.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nhi-scout.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "nhi-explorer.serviceAccountName" -}}
+{{- define "nhi-scout.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "nhi-explorer.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "nhi-scout.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
