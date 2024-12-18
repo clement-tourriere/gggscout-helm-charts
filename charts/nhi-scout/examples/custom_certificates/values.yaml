@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+# Custom certificates are configured by setting either of the following environment variables:
+# - SSL_CERT_FILE
+# - SSL_CERT_DIR
+# The value of these environment variables should be the path to the custom certificate file or directory.
+# These certificates will be configured to be used when authenticating remote servers.
+
+env:
+  # If you want to use a single certificate:
+- name: "SSL_CERT_FILE"
+  value: "/etc/ssl/certs/my-custom-certificates/my-custom-certificate.crt"
+  # Or, if you have multiple certificates:
+- name: "SSL_CERT_DIR"
+  value: "/etc/ssl/certs/my-custom-certificates/"
+
+# Mount the certificate from a secret into the pod, at the specified path:
+volumes:
+- name: my-custom-certificates
+  secret:
+    secretName: my-custom-certificates
+
+volumeMounts:
+- name: my-custom-certificate
+  mountPath: /etc/ssl/certs/my-custom-certificates/
+  readOnly: true
+
+inventory:
+  config:
+    sources:
+      gitlab:
+        type: gitlabci
+        token: gitlab-token # Replace with the GitLab CI token
+        url: https://gitlab.com # GitLab URL
