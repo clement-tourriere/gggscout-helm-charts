@@ -22,7 +22,7 @@ volumes:
     secretName: my-custom-certificates
 
 volumeMounts:
-- name: my-custom-certificate
+- name: my-custom-certificates
   mountPath: /etc/ssl/certs/my-custom-certificates/
   readOnly: true
 
