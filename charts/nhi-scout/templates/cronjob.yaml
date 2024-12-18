@@ -46,6 +46,9 @@ spec:
               volumeMounts:
                 - name: config
                   mountPath: /etc/inventory
+                {{- range .Values.volumeMounts }}
+                - {{ toJson . }}
+                {{- end }}
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets: {{ toJson . }}
           {{- end }}
@@ -65,6 +68,7 @@ spec:
           volumes:
             - name: config
               configMap:
-                # Provide the name of the ConfigMap containing the files you want
-                # to add to the container
                 name: {{ include "nhi-scout.fullname" . }}
+            {{- range .Values.volumes }}
+            - {{ toJson . }}
+            {{- end }}

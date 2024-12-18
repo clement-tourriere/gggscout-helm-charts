@@ -125,3 +125,25 @@ tests:
       content:
         name: RUST_LOG
         value: info
+- it: should set volumes
+  set:
+    volumes:
+    - name: test-volume
+      emptyDir: {}
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.volumes
+      content:
+        name: test-volume
+        emptyDir: {}
+- it: should set volumeMounts
+  set:
+    volumeMounts:
+    - mountPath: /test
+      name: test-volume
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts
+      content:
+        mountPath: /test
+        name: test-volume
