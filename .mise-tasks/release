@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+#USAGE arg "<type>" help="Release type" default="patch" {
+#USAGE   choices "patch" "minor" "major"
+#USAGE }
+
+bump2version "${usage_type:-minor}"
