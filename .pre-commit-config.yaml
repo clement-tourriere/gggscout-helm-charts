@@ -9,20 +9,18 @@ repos:
     args: [--mapping, '2', --sequence, '2', --offset, '0', --preserve-quotes, --preserve_null]
 - repo: local
   hooks:
-  - entry: ./scripts/bundle_schemas.sh
+  - entry: mise run bundle-schemas
     id: schema-bundle
-    language: node
+    language: system
     name: schema-bundle
     pass_filenames: false
-    additional_dependencies:
-    - '@sourcemeta/jsonschema'
-  - entry: ./scripts/test.sh
+  - entry: mise run test
     id: helm-unittest
-    language: script
+    language: system
     name: helm-unittest
     pass_filenames: false
-  - entry: ./scripts/lint.sh
+  - entry: mise run lint
     id: helm-lint
-    language: script
+    language: system
     name: helm-lint
     pass_filenames: false

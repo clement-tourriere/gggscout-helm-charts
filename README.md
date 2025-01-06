@@ -51,8 +51,8 @@ Other examples can be found in [charts/nhi-scout/examples](charts/nhi-scout/exam
 
 ## Development
 
-Install the [helm unittest plugin](https://github.com/helm-unittest/helm-unittest)
+Install [mise](https://mise.jdx.dev/), then run the following command to run tests:
 
 ```shell
-$ helm plugin install https://github.com/helm-unittest/helm-unittest.git
+$ mise run test
 ```

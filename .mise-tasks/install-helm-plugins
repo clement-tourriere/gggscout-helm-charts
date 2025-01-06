@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+plugins=$(helm plugin list)
+
+if ! echo "$plugins" | grep -q 'unittest'; then
+  helm plugin install https://github.com/helm-unittest/helm-unittest.git
+fi

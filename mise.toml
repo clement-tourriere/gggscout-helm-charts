@@ -1,0 +1,5 @@
+[tools]
+helm = "latest"
+nodejs = "lts"
+"npm:@sourcemeta/jsonschema" = "latest"
+pre-commit = "latest"
