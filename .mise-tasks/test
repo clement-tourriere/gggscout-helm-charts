@@ -2,4 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+#MISE depends=["install-helm-plugins"]
+
 helm unittest charts/*
