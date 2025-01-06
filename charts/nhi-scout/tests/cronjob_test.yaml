@@ -150,9 +150,8 @@ tests:
 - it: should set securityContext
   asserts:
   - equal:
-      path: spec.jobTemplate.spec.template.spec.containers[0].securityContext
+      path: spec.jobTemplate.spec.template.spec.securityContext
       value:
-        allowPrivilegeEscalation: false
         runAsUser: 65532
         runAsGroup: 65532
         fsGroup: 65532

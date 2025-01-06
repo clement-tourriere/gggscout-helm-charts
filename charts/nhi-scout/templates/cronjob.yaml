@@ -20,9 +20,9 @@ spec:
             {{ toYaml . | nindent 12 }}
             {{- end }}
         spec:
+          securityContext: {{ toJson .Values.securityContext }}
           containers:
             - name: {{ .Chart.Name }}
-              securityContext: {{ toJson .Values.securityContext }}
               image: "{{ .Values.image.repository }}:{{ .Values.inventory.version }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               args:
@@ -53,7 +53,6 @@ spec:
           imagePullSecrets: {{ toJson . }}
           {{- end }}
           serviceAccountName: {{ include "nhi-scout.serviceAccountName" . }}
-          securityContext: {{ toJson .Values.podSecurityContext }}
           {{- with .Values.nodeSelector }}
           nodeSelector: {{ toJson . }}
           {{- end }}
