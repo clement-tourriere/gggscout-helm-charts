@@ -74,12 +74,6 @@
         }
       },
       "definitions": {
-        "AuthMode": {
-          "enum": [
-            "CyberArk",
-            "Workload"
-          ]
-        },
         "FetcherConfig": {
           "oneOf": [
             {
@@ -330,45 +324,77 @@
             {
               "description": "Conjur Cloud vault fetcher",
               "type": "object",
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "auth_mode",
+                    "client_id",
+                    "client_secret",
+                    "tenant_id"
+                  ],
+                  "minProperties": 4,
+                  "properties": {
+                    "auth_mode": {
+                      "enum": [
+                        "cyberark"
+                      ]
+                    },
+                    "client_id": {
+                      "description": "CyberArk client ID or Conjur workload Client ID",
+                      "type": "string",
+                      "minLength": 0
+                    },
+                    "client_secret": {
+                      "description": "Secret for authenticating",
+                      "type": "string",
+                      "minLength": 0
+                    },
+                    "tenant_id": {
+                      "description": "Cyberark Cloud tenant ID",
+                      "type": "string",
+                      "minLength": 0
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "api_key",
+                    "auth_mode",
+                    "login"
+                  ],
+                  "minProperties": 3,
+                  "properties": {
+                    "api_key": {
+                      "description": "Workload API key for authenticating",
+                      "type": "string",
+                      "minLength": 0
+                    },
+                    "auth_mode": {
+                      "enum": [
+                        "workload"
+                      ]
+                    },
+                    "login": {
+                      "description": "Workload login (ID) for authenticating",
+                      "type": "string",
+                      "minLength": 0
+                    }
+                  }
+                }
+              ],
               "required": [
-                "auth_mode",
-                "client_id",
-                "client_secret",
-                "conjur_url",
                 "fetch_all_versions",
-                "tenant_id",
+                "subdomain",
                 "type"
               ],
-              "minProperties": 7,
+              "minProperties": 3,
               "properties": {
                 "type": {
                   "enum": [
                     "conjurcloud"
                   ]
-                },
-                "auth_mode": {
-                  "description": "Auth mode: using Conjur Cloud workloads or CyberArk identity service",
-                  "allOf": [
-                    {
-                      "$ref": "#/definitions/inventory-config.schema.json/definitions/AuthMode"
-                    }
-                  ]
-                },
-                "client_id": {
-                  "description": "CyberArk client ID or Conjur workload Client ID",
-                  "type": "string",
-                  "minLength": 0
-                },
-                "client_secret": {
-                  "description": "Secret for authenticating",
-                  "type": "string",
-                  "minLength": 0
-                },
-                "conjur_url": {
-                  "description": "The Conjur Cloud instance URL",
-                  "type": "string",
-                  "format": "uri",
-                  "minLength": 0
                 },
                 "fetch_all_versions": {
                   "description": "Fetch all secret versions",
@@ -385,8 +411,8 @@
                     }
                   ]
                 },
-                "tenant_id": {
-                  "description": "Cyberark Cloud tenant ID",
+                "subdomain": {
+                  "description": "The Conjur cloud subdomain",
                   "type": "string",
                   "minLength": 0
                 }

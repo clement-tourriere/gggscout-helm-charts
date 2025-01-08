@@ -31,15 +31,14 @@ spec:
                 {{- else }}
                 - fetch
                 {{- end }}
+                {{- if .Values.inventory.log_level }}
+                - --verbose={{ .Values.inventory.log_level }}
+                {{- end}}
               resources: {{ toJson .Values.resources }}
               envFrom: {{ toJson .Values.envFrom }}
               env:
                 - name: INVENTORY_CONFIG_PATH
                   value: /etc/inventory/config.yml
-              {{- if .Values.inventory.log_level }}
-                - name: RUST_LOG
-                  value: {{ .Values.inventory.log_level }}
-              {{- end}}
               {{- range .Values.env }}
                 - {{ toJson . }}
               {{- end }}

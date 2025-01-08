@@ -103,28 +103,24 @@ tests:
     inventory.config.gitguardian.endpoint: "https://some-url.com"
   asserts:
   - equal:
-      path: spec.jobTemplate.spec.template.spec.containers[0].args
-      value:
-      - fetch-and-send
+      path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
+      value: "fetch-and-send"
 
 - it: should use the fetch command if no upload is set
   set:
     inventory.config.gitguardian: null
   asserts:
   - equal:
-      path: spec.jobTemplate.spec.template.spec.containers[0].args
-      value:
-      - fetch
+      path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
+      value: "fetch"
 
 - it: should use the right log level
   set:
     inventory.config.log_level: info
   asserts:
   - contains:
-      path: spec.jobTemplate.spec.template.spec.containers[0].env
-      content:
-        name: RUST_LOG
-        value: info
+      path: spec.jobTemplate.spec.template.spec.containers[0].args
+      content: '--verbose=info'
 - it: should set volumes
   set:
     volumes:
