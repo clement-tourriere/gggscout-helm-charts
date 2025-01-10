@@ -124,6 +124,16 @@ entries:
   nhi-scout:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-01-10T13:42:28.707980295Z"
+    description: A Helm chart for Kubernetes
+    digest: c0821344390a3723db4d87d006d6d1517e7b812a3c4333b5de1b30b916428b8f
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.22/nhi-scout-0.1.22.tgz
+    version: 0.1.22
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-01-08T18:44:29.931845648Z"
     description: A Helm chart for Kubernetes
     digest: a43624382637f3b8ae324c3ec4798fb6e3ea8f48fbb7bd71c77f720e81b207c9
@@ -172,4 +182,4 @@ entries:
     urls:
     - https://github.com/GitGuardian/GitGuardian-nhi-scout-helm-charts/releases/download/nhi-scout-0.1.11/nhi-scout-0.1.11.tgz
     version: 0.1.11
-generated: "2025-01-08T18:44:29.931888771Z"
+generated: "2025-01-10T13:42:28.708077476Z"
