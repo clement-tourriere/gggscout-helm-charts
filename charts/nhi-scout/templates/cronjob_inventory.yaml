@@ -1,0 +1,6 @@
+{{ $command := "fetch" -}}
+{{- if ne .Values.inventory.config.gitguardian nil }}
+{{ $command = "fetch-and-send" -}}
+{{- end }}
+
+{{ include "nhi-scout.cronjob" (merge . (dict "cronjob_name" "inventory" "command" $command) ) }}

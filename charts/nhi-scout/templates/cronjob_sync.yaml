@@ -1,0 +1,3 @@
+{{ if .Values.inventory.config.gitguardian }}
+{{ include "nhi-scout.cronjob" (merge . (dict "cronjob_name" "sync" "command" "sync-secrets") ) }}
+{{ end }}

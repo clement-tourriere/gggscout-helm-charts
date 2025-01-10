@@ -1,10 +1,14 @@
 ---
 # Test docs: https://github.com/helm-unittest/helm-unittest/blob/main/DOCUMENT.md
-suite: test cronjob
+suite: test base cronjob
 values:
 - ../test_values.yaml
 templates:
-- cronjob.yaml
+- cronjob_inventory.yaml
+- cronjob_sync.yaml
+set:
+  inventory.config.gitguardian.api_token: "foobar"
+  inventory.config.gitguardian.endpoint: "https://some-url.com"
 tests:
 - it: should work
   set:
@@ -12,9 +16,6 @@ tests:
   asserts:
   - isKind:
       of: CronJob
-  - matchRegex:
-      path: metadata.name
-      pattern: -nhi-scout$
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].image
       value: ghcr.io/gitguardian/gitguardian-nhi-scout/chainguard:latest
@@ -96,23 +97,6 @@ tests:
       content:
         name: foo
         value: bar
-
-- it: should use the gitguardian command if set
-  set:
-    inventory.config.gitguardian.api_token: "foobar"
-    inventory.config.gitguardian.endpoint: "https://some-url.com"
-  asserts:
-  - equal:
-      path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
-      value: "fetch-and-send"
-
-- it: should use the fetch command if no upload is set
-  set:
-    inventory.config.gitguardian: null
-  asserts:
-  - equal:
-      path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
-      value: "fetch"
 
 - it: should use the right log level
   set:

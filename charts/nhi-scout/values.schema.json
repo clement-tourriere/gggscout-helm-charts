@@ -23,6 +23,12 @@
           "type": "string",
           "minLength": 0
         },
+        "sync": {
+          "enum": [
+            false,
+            true
+          ]
+        },
         "version": {
           "type": "string",
           "minLength": 0

@@ -1,0 +1,34 @@
+---
+# Test docs: https://github.com/helm-unittest/helm-unittest/blob/main/DOCUMENT.md
+suite: test inventory cronjob
+values:
+- ../test_values.yaml
+templates:
+- cronjob_inventory.yaml
+tests:
+- it: should work
+  set:
+    inventory.version: latest
+  asserts:
+  - isKind:
+      of: CronJob
+  - matchRegex:
+      path: metadata.name
+      pattern: inventory-.*-nhi-scout$
+
+- it: should use the gitguardian command if set
+  set:
+    inventory.config.gitguardian.api_token: "foobar"
+    inventory.config.gitguardian.endpoint: "https://some-url.com"
+  asserts:
+  - equal:
+      path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
+      value: "fetch-and-send"
+
+- it: should use the fetch command if no upload is set
+  set:
+    inventory.config.gitguardian: null
+  asserts:
+  - equal:
+      path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
+      value: "fetch"

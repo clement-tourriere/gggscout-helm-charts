@@ -9,6 +9,8 @@ inventory:
   # Schedule to run the collection on
   schedule: "*/15 * * * *"
   log_level: info
+  # Enable syncing secrets to vaults
+  sync: false
   # Need to add this explicitly
   config: null
 

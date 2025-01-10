@@ -20,6 +20,8 @@ An example values file that fetches from HashiCorp Vault and GitLab CI:
 inventory:
   # Run every 15 minutes
   schedule: '*/15 * * * *'
+  # Set to `true` to enable syncing secrets from GitGuardian into your vaults
+  sync: false
   config:
     sources:
       vault-secrets:

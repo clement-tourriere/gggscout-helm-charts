@@ -1,8 +1,8 @@
----
+{{- define "nhi-scout.cronjob" -}}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "nhi-scout.fullname" . }}
+  name: {{ .cronjob_name }}-{{ include "nhi-scout.fullname" . }}
   labels:
     {{- include "nhi-scout.labels" . | nindent 4 }}
 spec:
@@ -26,11 +26,7 @@ spec:
               image: "{{ .Values.image.repository }}:{{ .Values.inventory.version }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               args:
-                {{- if ne .Values.inventory.config.gitguardian nil }}
-                - fetch-and-send
-                {{- else }}
-                - fetch
-                {{- end }}
+                - {{ .command }}
                 {{- if .Values.inventory.log_level }}
                 - --verbose={{ .Values.inventory.log_level }}
                 {{- end}}
@@ -70,3 +66,4 @@ spec:
             {{- range .Values.volumes }}
             - {{ toJson . }}
             {{- end }}
+{{- end -}}
