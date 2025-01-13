@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ .cronjob_name }}-{{ include "nhi-scout.fullname" . }}
+  name: {{ include "nhi-scout.fullname" . }}-{{ .cronjob_name }}
   labels:
     {{- include "nhi-scout.labels" . | nindent 4 }}
 spec:

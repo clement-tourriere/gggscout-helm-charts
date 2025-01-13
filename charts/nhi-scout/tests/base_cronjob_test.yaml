@@ -5,7 +5,6 @@ values:
 - ../test_values.yaml
 templates:
 - cronjob_inventory.yaml
-- cronjob_sync.yaml
 set:
   inventory.config.gitguardian.api_token: "foobar"
   inventory.config.gitguardian.endpoint: "https://some-url.com"
