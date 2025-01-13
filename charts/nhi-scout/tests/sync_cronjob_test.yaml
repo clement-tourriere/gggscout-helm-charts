@@ -6,6 +6,7 @@ values:
 templates:
 - cronjob_sync.yaml
 set:
+  inventory.sync: true
   inventory.config.gitguardian.api_token: "foobar"
   inventory.config.gitguardian.endpoint: "https://some-url.com"
 tests:
@@ -17,7 +18,7 @@ tests:
       of: CronJob
   - matchRegex:
       path: metadata.name
-      pattern: sync-.*-nhi-scout$
+      pattern: .*-nhi-scout-sync$
 
 - it: should use the gitguardian command if set
   asserts:

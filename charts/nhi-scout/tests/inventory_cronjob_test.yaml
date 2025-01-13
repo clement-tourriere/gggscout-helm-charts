@@ -14,7 +14,7 @@ tests:
       of: CronJob
   - matchRegex:
       path: metadata.name
-      pattern: inventory-.*-nhi-scout$
+      pattern: .*-nhi-scout-inventory$
 
 - it: should use the gitguardian command if set
   set:
