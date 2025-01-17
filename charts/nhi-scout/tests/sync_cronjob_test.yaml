@@ -6,7 +6,7 @@ values:
 templates:
 - cronjob_sync.yaml
 set:
-  inventory.sync: true
+  inventory.jobs.sync.enabled: true
   inventory.config.gitguardian.api_token: "foobar"
   inventory.config.gitguardian.endpoint: "https://some-url.com"
 tests:
@@ -33,3 +33,11 @@ tests:
   - containsDocument:
       kind: CronJob
     not: true
+
+- it: should be possible to modify schedule
+  set:
+    inventory.jobs.sync.schedule: 2 * * * *
+  asserts:
+  - equal:
+      path: spec.schedule
+      value: 2 * * * *

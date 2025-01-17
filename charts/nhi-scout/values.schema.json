@@ -16,18 +16,11 @@
         "config": {
           "$ref": "#/definitions/inventory-config.schema.json"
         },
+        "jobs": {
+          "$ref": "#/definitions/jobs.schema.json"
+        },
         "log_level": {
           "$ref": "#/definitions/inventory-log-level.schema.json"
-        },
-        "schedule": {
-          "type": "string",
-          "minLength": 0
-        },
-        "sync": {
-          "enum": [
-            false,
-            true
-          ]
         },
         "version": {
           "type": "string",
@@ -466,6 +459,68 @@
         "warn",
         "error"
       ]
+    },
+    "jobs.schema.json": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "minProperties": 0,
+      "properties": {
+        "fetch": {
+          "description": "Job that fetches data from defined sources. If send is set to `true`, send collected data to the configured GitGuardian instance.",
+          "type": "object",
+          "minProperties": 0,
+          "properties": {
+            "enabled": {
+              "default": true,
+              "enum": [
+                false,
+                true
+              ]
+            },
+            "schedule": {
+              "default": "*/15 * * * *",
+              "type": "string",
+              "minLength": 0
+            },
+            "send": {
+              "default": true,
+              "enum": [
+                false,
+                true
+              ]
+            }
+          }
+        },
+        "ping": {
+          "type": "object",
+          "minProperties": 0,
+          "properties": {
+            "schedule": {
+              "default": "* * * * *",
+              "type": "string",
+              "minLength": 0
+            }
+          }
+        },
+        "sync": {
+          "type": "object",
+          "minProperties": 0,
+          "properties": {
+            "enabled": {
+              "default": false,
+              "enum": [
+                false,
+                true
+              ]
+            },
+            "schedule": {
+              "default": "* * * * *",
+              "type": "string",
+              "minLength": 0
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -18,10 +18,6 @@ An example values file that fetches from HashiCorp Vault and GitLab CI:
 
 ```yaml
 inventory:
-  # Run every 15 minutes
-  schedule: '*/15 * * * *'
-  # Set to `true` to enable syncing secrets from GitGuardian into your vaults
-  sync: false
   config:
     sources:
       vault-secrets:
@@ -40,6 +36,21 @@ inventory:
     gitguardian:
       endpoint: "https://your-gg-instance/v1"
       api_token: "${GG_API_TOKEN}"
+  jobs:
+    # Job to fetch defined sources
+    fetch:
+        # Set to `true` to enable the job
+        enabled: false
+        # Run every 15 minutes
+        schedule: '*/15 * * * *'
+        send: true
+    # Job to be able to sync/write secrets from GitGuardian into you vault
+    sync:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every minute
+      schedule: '* * * * *'
+      # Set to `true` to enable sending fetched data to the GitGuardian instance 
 
 # This needs to be created separately, and contain the following keys:
 # - `HASHICORP_VAULT_TOKEN` - the hashicorp vault token to use

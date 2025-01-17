@@ -2,7 +2,6 @@
 # yaml-language-server: $schema=values.schema.json
 
 inventory:
-  sync: false
   config:
     sources: {}
     gitguardian: null
