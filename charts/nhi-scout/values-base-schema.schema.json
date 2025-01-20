@@ -7,14 +7,15 @@
       "type": "object",
       "properties": {
         "version": {"type": "string"},
-        "schedule": {"type": "string"},
-        "sync": {"type": "boolean"},
         "log_level": {
           "$ref": "inventory-log-level.schema.json"
         },
         "config": {
           "$ref": "inventory-config.schema.json"
-        }
+        },
+       "jobs": {
+         "$ref": "jobs.schema.json"
+       }
       },
       "required": ["config"]
     }

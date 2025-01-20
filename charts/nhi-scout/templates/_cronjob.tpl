@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "nhi-scout.labels" . | nindent 4 }}
 spec:
-  schedule: {{ toJson .Values.inventory.schedule  }}
+  schedule: {{ toJson .schedule  }}
   jobTemplate:
     spec:
       template:

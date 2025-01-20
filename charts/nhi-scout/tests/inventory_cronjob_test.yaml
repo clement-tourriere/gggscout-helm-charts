@@ -5,6 +5,10 @@ values:
 - ../test_values.yaml
 templates:
 - cronjob_inventory.yaml
+set:
+  inventory.jobs.fetch.enabled: true
+  inventory.config.gitguardian.api_token: "foobar"
+  inventory.config.gitguardian.endpoint: "https://some-url.com"
 tests:
 - it: should work
   set:
@@ -18,8 +22,7 @@ tests:
 
 - it: should use the gitguardian command if set
   set:
-    inventory.config.gitguardian.api_token: "foobar"
-    inventory.config.gitguardian.endpoint: "https://some-url.com"
+    inventory.jobs.fetch.send: true
   asserts:
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
@@ -27,8 +30,16 @@ tests:
 
 - it: should use the fetch command if no upload is set
   set:
-    inventory.config.gitguardian: null
+    inventory.jobs.fetch.send: false
   asserts:
   - equal:
       path: spec.jobTemplate.spec.template.spec.containers[0].args[0]
       value: "fetch"
+
+- it: should be possible to modify schedule
+  set:
+    inventory.jobs.fetch.schedule: 2 * * * *
+  asserts:
+  - equal:
+      path: spec.schedule
+      value: 2 * * * *

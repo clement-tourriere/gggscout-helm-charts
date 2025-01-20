@@ -1,6 +1,10 @@
+{{- if and (ne .Values.inventory.config.gitguardian nil) (ne .Values.inventory.jobs nil) (ne .Values.inventory.jobs.fetch nil) (.Values.inventory.jobs.fetch.enabled) }}
+
 {{ $command := "fetch" -}}
-{{- if ne .Values.inventory.config.gitguardian nil }}
+
+{{- if .Values.inventory.jobs.fetch.send }}
 {{ $command = "fetch-and-send" -}}
 {{- end }}
 
-{{ include "nhi-scout.cronjob" (merge (dict "cronjob_name" "inventory" "command" $command) .) -}}
+{{ include "nhi-scout.cronjob" (merge (dict "cronjob_name" "inventory" "command" $command "schedule" .Values.inventory.jobs.fetch.schedule) .) -}}
+{{- end }}
