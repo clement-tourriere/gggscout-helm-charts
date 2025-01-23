@@ -39,8 +39,8 @@ inventory:
   jobs:
     # Job to fetch defined sources
     fetch:
-        # Set to `true` to enable the job
-        enabled: false
+        # Set to `false` to disable the job
+        enabled: true
         # Run every 15 minutes
         schedule: '*/15 * * * *'
         send: true
@@ -50,7 +50,6 @@ inventory:
       enabled: true
       # Run every minute
       schedule: '* * * * *'
-      # Set to `true` to enable sending fetched data to the GitGuardian instance 
 
 # This needs to be created separately, and contain the following keys:
 # - `HASHICORP_VAULT_TOKEN` - the hashicorp vault token to use
@@ -59,6 +58,8 @@ envFrom:
   - secretRef:
       name: gitguardian-nhi-scout-secrets
 ```
+
+If you want to only fetch the identities without sending them, please see this [example](charts/nhi-scout/examples/fetch_only)
 
 Other examples can be found in [charts/nhi-scout/examples](charts/nhi-scout/examples).
 
