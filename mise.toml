@@ -2,5 +2,5 @@
 helm = "latest"
 nodejs = "lts"
 "npm:@sourcemeta/jsonschema" = "latest"
-pre-commit = "latest"
+"pipx:pre-commit" = "latest"
 "pipx:bump2version" = "latest"
