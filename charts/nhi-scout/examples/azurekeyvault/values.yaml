@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      azurekeyvault:
+        type: azurekeyvault
+        subscription_id: "${AZURE_SUBSCRIPTION_ID}"
