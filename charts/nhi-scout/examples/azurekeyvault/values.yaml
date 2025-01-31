@@ -7,3 +7,5 @@ inventory:
       azurekeyvault:
         type: azurekeyvault
         subscription_id: "${AZURE_SUBSCRIPTION_ID}"
+        fetch_all_versions: true
+
