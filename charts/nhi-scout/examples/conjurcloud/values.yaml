@@ -4,10 +4,13 @@
 inventory:
   config:
     sources:
-      azure_key_vault:
-        type: azurekeyvault
-        subscription_id: "${AZURE_SUBSCRIPTION_ID}"
+      conjur_cloud:
+        type: conjurcloud
         fetch_all_versions: true
+        subdomain: "conjursubdomain"
+        auth_mode: "workload"
+        login: "${CONJUR_WORKLOAD_ID}"
+        api_key: "${CONJUR_WORKLOAD_API_KEY}"
 
     gitguardian:
       endpoint: "https://my-gg-instance/v1"

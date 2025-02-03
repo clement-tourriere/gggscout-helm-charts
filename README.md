@@ -34,7 +34,7 @@ inventory:
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
-      endpoint: "https://your-gg-instance/v1"
+      endpoint: "https://my-gg-instance/v1"
       api_token: "${GG_API_TOKEN}"
   jobs:
     # Job to fetch defined sources
