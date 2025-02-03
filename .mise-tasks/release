@@ -6,4 +6,4 @@ IFS=$'\n\t'
 #USAGE   choices "patch" "minor" "major"
 #USAGE }
 
-bump2version "${usage_type:-minor}"
+cz bump
