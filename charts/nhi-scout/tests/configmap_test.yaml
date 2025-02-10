@@ -14,6 +14,7 @@ tests:
           kube:
             type: k8s
             name: my-cluster
+            config_source: kubeconfigfile
         gitguardian: null
   asserts:
   - isKind:
@@ -24,8 +25,8 @@ tests:
   - equal:
       path: data["config.yml"]
       value: |-
-        gitguardian: null
         sources:
           kube:
+            config_source: kubeconfigfile
             name: my-cluster
             type: k8s

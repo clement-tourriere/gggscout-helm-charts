@@ -1,34 +1,34 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
   "$id": "inventory-config.schema.json",
   "title": "Config",
   "type": "object",
-  "required": [
-    "sources"
-  ],
   "properties": {
     "gitguardian": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/GitGuardianConfig"
-        },
-        {
-          "type": "null"
-        }
-      ]
+      "$ref": "#/definitions/GitGuardianConfig",
+      "nullable": true
     },
     "sources": {
       "type": "object",
       "additionalProperties": {
         "$ref": "#/definitions/FetcherConfig"
-      }
+      },
+      "nullable": true
     }
   },
   "definitions": {
+    "Accessibility": {
+      "type": "string",
+      "enum": [
+        "regular",
+        "personal"
+      ]
+    },
     "FetcherConfig": {
       "oneOf": [
         {
-          "description": "HashiCorp Vault fetcher",
+          "title": "HashiCorp Vault",
+          "description": "This fetcher fetches secrets from [HashiCorp Vault](https://www.hashicorp.com/products/vault)",
           "type": "object",
           "required": [
             "fetch_all_versions",
@@ -37,33 +37,38 @@
           ],
           "properties": {
             "auth_token": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": "string",
+              "nullable": true
             },
             "auth_token_file": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": "string",
+              "nullable": true
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
             },
             "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
               "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
             },
             "mode": {
               "default": "read",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/Mode"
-                }
-              ]
+              "$ref": "#/definitions/Mode"
             },
             "path": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": "string",
+              "nullable": true
             },
             "type": {
               "type": "string",
@@ -78,40 +83,82 @@
           }
         },
         {
+          "title": "Kubernetes",
           "description": "Kubernetes fetcher",
           "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "config_source"
+              ],
+              "properties": {
+                "config_source": {
+                  "type": "string",
+                  "enum": [
+                    "kubeconfigfile"
+                  ]
+                },
+                "contexts": {
+                  "description": "Kubernetes contexts to filter on.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "nullable": true
+                },
+                "kubeconfig_path": {
+                  "description": "Path to the kubernetes kubeconfig to use",
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "config_source",
+                "name"
+              ],
+              "properties": {
+                "config_source": {
+                  "type": "string",
+                  "enum": [
+                    "incluster"
+                  ]
+                },
+                "name": {
+                  "description": "Kubernetes cluster namecause it cannot be retrieved with the Kubernetes API",
+                  "type": "string"
+                }
+              }
+            }
+          ],
           "required": [
-            "name",
             "type"
           ],
           "properties": {
-            "context": {
-              "description": "Kubernetes context to use",
-              "type": [
-                "string",
-                "null"
-              ]
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
             },
-            "kubeconfig": {
-              "description": "Path to the kubernetes kubeconfig to use",
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "name": {
-              "description": "Kubernetes cluster name",
-              "type": "string"
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
             },
             "namespaces": {
               "description": "Namespaces to read from. Can be a literal string or a glob expression to match multiple namespaces.",
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "nullable": true
             },
             "type": {
               "type": "string",
@@ -122,34 +169,46 @@
           }
         },
         {
+          "title": "AWS Secrets Manager",
           "description": "AWS Secrets Manager fetcher",
           "type": "object",
           "required": [
+            "fetch_all_versions",
             "type"
           ],
           "properties": {
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
             "mode": {
               "default": "read",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/Mode"
-                }
-              ]
+              "$ref": "#/definitions/Mode"
             },
             "profile_name": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": "string",
+              "nullable": true
             },
             "regions": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "nullable": true
             },
             "type": {
               "type": "string",
@@ -160,6 +219,7 @@
           }
         },
         {
+          "title": "GCP Secret Manager",
           "description": "GCP Secret Manager fetcher",
           "type": "object",
           "required": [
@@ -168,25 +228,34 @@
             "type"
           ],
           "properties": {
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
             "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
               "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
             },
             "mode": {
               "default": "read",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/Mode"
-                }
-              ]
+              "$ref": "#/definitions/Mode"
             },
             "projects": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "nullable": true
             },
             "service_account_key_file": {
               "type": "string"
@@ -200,7 +269,8 @@
           }
         },
         {
-          "description": "Azure secret vault fetcher",
+          "title": "Azure Key Vault",
+          "description": "Azure Key Vault fetcher",
           "type": "object",
           "required": [
             "fetch_all_versions",
@@ -208,16 +278,27 @@
             "type"
           ],
           "properties": {
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
             "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
               "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
             },
             "mode": {
               "default": "read",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/Mode"
-                }
-              ]
+              "$ref": "#/definitions/Mode"
             },
             "subscription_id": {
               "type": "string"
@@ -231,6 +312,7 @@
           }
         },
         {
+          "title": "GitLab CI",
           "description": "GitLab CI fetcher",
           "type": "object",
           "required": [
@@ -239,6 +321,20 @@
             "url"
           ],
           "properties": {
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
             "token": {
               "type": "string"
             },
@@ -255,10 +351,12 @@
           }
         },
         {
-          "description": "Conjur Cloud vault fetcher",
+          "title": "Conjur Cloud",
+          "description": "Conjur Cloud fetcher",
           "type": "object",
           "oneOf": [
             {
+              "title": "CyberArk authentication",
               "type": "object",
               "required": [
                 "auth_mode",
@@ -288,6 +386,7 @@
               }
             },
             {
+              "title": "Workload authentication",
               "type": "object",
               "required": [
                 "api_key",
@@ -318,20 +417,30 @@
             "type"
           ],
           "properties": {
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
             "fetch_all_versions": {
-              "description": "Fetch all secret versions",
+              "title": "Whether or not to collect all secret versions",
               "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
             },
             "mode": {
               "default": "read",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/Mode"
-                }
-              ]
+              "$ref": "#/definitions/Mode"
             },
             "subdomain": {
-              "description": "The Conjur cloud subdomain",
+              "title": "The Conjur Cloud subdomain",
               "type": "string"
             },
             "type": {
@@ -341,10 +450,167 @@
               ]
             }
           }
+        },
+        {
+          "title": "Akeyless",
+          "description": "Akeyless fetcher",
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "access_id",
+                "access_key",
+                "auth_mode"
+              ],
+              "properties": {
+                "access_id": {
+                  "description": "Akeyless Access ID",
+                  "type": "string"
+                },
+                "access_key": {
+                  "description": "Akeyless Access Key",
+                  "type": "string"
+                },
+                "auth_mode": {
+                  "type": "string",
+                  "enum": [
+                    "apikey"
+                  ]
+                }
+              }
+            }
+          ],
+          "required": [
+            "fetch_all_versions",
+            "type"
+          ],
+          "properties": {
+            "accessibility": {
+              "default": "regular",
+              "$ref": "#/definitions/Accessibility"
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "default": "read",
+              "$ref": "#/definitions/Mode"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "akeyless"
+              ]
+            }
+          }
+        },
+        {
+          "title": "Delinea Secret Server",
+          "description": "Delinea SecretServer fetcher",
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "auth_mode",
+                "client_id",
+                "client_secret"
+              ],
+              "properties": {
+                "auth_mode": {
+                  "type": "string",
+                  "enum": [
+                    "oauth"
+                  ]
+                },
+                "client_id": {
+                  "type": "string"
+                },
+                "client_secret": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "required": [
+            "tenant",
+            "type"
+          ],
+          "properties": {
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "default": "read",
+              "$ref": "#/definitions/Mode"
+            },
+            "tenant": {
+              "description": "Delinea tenant",
+              "type": "string"
+            },
+            "tld": {
+              "description": "Top-level domain This can be found by clicking on \"Token API documentation\" in the Settings > REST API section of the Secret Server UI",
+              "default": "com",
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "delineasecretserver"
+              ]
+            }
+          }
         }
       ]
     },
+    "FilteringRule": {
+      "type": "object",
+      "properties": {
+        "resource_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleElement"
+          },
+          "nullable": true
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleElement"
+          },
+          "nullable": true
+        }
+      }
+    },
     "GitGuardianConfig": {
+      "title": "GitGuardian configuration",
       "type": "object",
       "required": [
         "api_token",
@@ -352,22 +618,52 @@
       ],
       "properties": {
         "api_token": {
-          "description": "API Token to authenticate with",
+          "title": "API Token to authenticate with",
           "type": "string"
         },
         "endpoint": {
-          "description": "Hostname or endpoint Example: https://gitguardian.internal/",
+          "title": "Hostname or endpoint",
+          "description": "Example: https://gitguardian.internal/",
           "type": "string",
           "format": "uri"
         }
       }
     },
     "Mode": {
+      "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
       "type": "string",
       "enum": [
         "read",
         "write",
         "read/write"
+      ]
+    },
+    "RuleElement": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "GreedySuffixRule"
+          ],
+          "properties": {
+            "GreedySuffixRule": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "ExactRule"
+          ],
+          "properties": {
+            "ExactRule": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
       ]
     }
   }
