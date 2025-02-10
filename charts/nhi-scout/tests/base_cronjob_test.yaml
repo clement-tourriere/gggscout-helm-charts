@@ -11,7 +11,7 @@ set:
 tests:
 - it: should work
   set:
-    inventory.version: latest
+    image.tag: latest
   asserts:
   - isKind:
       of: CronJob
@@ -21,7 +21,7 @@ tests:
 
 - it: should set image pull secrets
   set:
-    imagePullSecrets:
+    global.imagePullSecrets:
     - name: foobar
   asserts:
   - equal:

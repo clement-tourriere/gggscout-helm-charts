@@ -1,6 +1,6 @@
 [tools]
 helm = "latest"
 nodejs = "lts"
-"npm:@sourcemeta/jsonschema" = "latest"
+"npm:@sourcemeta/jsonschema" = "4.3.2"
 "pipx:pre-commit" = "latest"
 "pipx:commitizen" = "latest"
