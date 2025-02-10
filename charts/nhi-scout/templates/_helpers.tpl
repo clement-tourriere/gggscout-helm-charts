@@ -165,5 +165,6 @@ imagePullSecrets:
 imagePullSecrets
 */}}
 {{- define "nhi-scout.imagePullSecrets" -}}
-{{ include "nhi-scout.common.imagePullSecrets" ( dict "images" (list $.Values.image) "context" $) }}
+    {{ include "nhi-scout.common.imagePullSecrets" ( dict "images" (list $.Values.image) "context" $) }}
 {{- end -}}
+

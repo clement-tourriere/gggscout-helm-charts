@@ -12,7 +12,7 @@ set:
 tests:
 - it: should work
   set:
-    inventory.version: latest
+    image.tag: latest
   asserts:
   - isKind:
       of: CronJob
