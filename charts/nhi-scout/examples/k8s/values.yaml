@@ -5,9 +5,9 @@ inventory:
   config:
     sources:
       kubernetes:
-        name: my-cluster
         type: k8s
-        context: null # Kubernetes context or null
+        config_source: incluster # incluster means that the Scout is scanning the k8s cluster is running on
+        name: my-cluster # cluster name must be provided when `incluster` is used
         namespaces: # List of namespaces or null
         - default
         - kube-system
