@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+cd docs
+generate-schema-doc ../schemas/inventory-config.schema.json --config-file config_schema.json
+cd ..

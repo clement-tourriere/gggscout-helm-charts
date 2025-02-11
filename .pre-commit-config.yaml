@@ -24,3 +24,8 @@ repos:
     language: system
     name: helm-lint
     pass_filenames: false
+  - entry: mise run generate-docs
+    id: generate-docs
+    language: system
+    name: generate-docs
+    pass_filenames: false
