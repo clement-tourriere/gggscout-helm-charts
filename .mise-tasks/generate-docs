@@ -4,4 +4,5 @@ IFS=$'\n\t'
 
 cd docs
 generate-schema-doc ../schemas/inventory-config.schema.json --config-file config_schema.json
+mv schema_doc.html index.html
 cd ..
