@@ -35,7 +35,7 @@ inventory:
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
       endpoint: "https://my-gg-instance/v1"
-      api_token: "${GG_API_TOKEN}"
+      api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     # Job to fetch defined sources
     fetch:
@@ -53,7 +53,7 @@ inventory:
 
 # This needs to be created separately, and contain the following keys:
 # - `HASHICORP_VAULT_TOKEN` - the hashicorp vault token to use
-# - `GG_API_TOKEN` - the GitGuardian token to send results with
+# - `GITGUARDIAN_API_KEY` - the GitGuardian token to send results with
 envFrom:
   - secretRef:
       name: gitguardian-nhi-scout-secrets
