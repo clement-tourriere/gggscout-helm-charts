@@ -50,7 +50,7 @@ tests:
         cpu: 100m
         memory: 100m
 
-- it: should set configmap mounts
+- it: should set secret mounts
   asserts:
   - contains:
       path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts
@@ -61,8 +61,8 @@ tests:
       path: spec.jobTemplate.spec.template.spec.volumes
       content:
         name: config
-        configMap:
-          name: RELEASE-NAME-nhi-scout
+        secret:
+          secretName: RELEASE-NAME-nhi-scout
   - contains:
       path: spec.jobTemplate.spec.template.spec.containers[0].env
       content:
