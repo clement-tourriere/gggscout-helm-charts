@@ -17,7 +17,7 @@ inventory:
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
       endpoint: "https://my-gg-instance/v1"
-      api_token: "${GG_API_TOKEN}"
+      api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     # Job to fetch defined sources
     fetch:
