@@ -8,4 +8,4 @@ version_files = [
   "charts/nhi-scout/Chart.yaml:^version: ",
 ]
 version_scheme = "semver2"
-version = "0.2.0"
+version = "0.2.1"

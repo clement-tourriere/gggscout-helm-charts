@@ -1,3 +1,14 @@
+## nhi-scout-0.2.1 (2025-02-18)
+
+### Feat
+
+- **chart**: update examples
+- **chart**: use secrets instead of configMap for Scout configuration
+
+### Docs
+
+- provides generated Scout documentation as GitHub pages
+
 ## nhi-scout-0.2.0 (2025-02-10)
 
 ### Feat
