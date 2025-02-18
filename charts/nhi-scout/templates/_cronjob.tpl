@@ -62,8 +62,8 @@ spec:
 
           volumes:
             - name: config
-              configMap:
-                name: {{ include "nhi-scout.fullname" . }}
+              secret:
+                secretName: {{ include "nhi-scout.fullname" . }}
             {{- range .Values.volumes }}
             - {{ toJson . }}
             {{- end }}
