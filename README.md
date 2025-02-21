@@ -43,6 +43,7 @@ inventory:
         enabled: true
         # Run every 15 minutes
         schedule: '*/15 * * * *'
+        # If set to `false`, see the fetch-only configuration example in charts/nhi-scout/examples/fetch_only
         send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
@@ -51,13 +52,30 @@ inventory:
       # Run every minute
       schedule: '* * * * *'
 
-# This needs to be created separately, and contain the following keys:
+# This needs to be created separately (read instructions below), and contain the following keys:
 # - `HASHICORP_VAULT_TOKEN` - the hashicorp vault token to use
+# - `GITLAB_TOKEN` - the GitLab access token to use
 # - `GITGUARDIAN_API_KEY` - the GitGuardian token to send results with
 envFrom:
   - secretRef:
       name: gitguardian-nhi-scout-secrets
 ```
+
+To create or update the secrets, you directly use Kubernetes Secrets API.
+Create `secrets.yaml` with the following content (replacing the values with your secrets):
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitguardian-nhi-scout-secrets
+stringData:
+    HASHICORP_VAULT_TOKEN: "my_vault_token"
+    GITGUARDIAN_API_KEY: "my_gitguardian_api_key"
+    GITLAB_TOKEN: "my_gitlab_token"
+```
+
+To apply the secrets to your cluster/namespace, run the following command: `kubectl apply -f secrets.yaml`
 
 If you want to only fetch the identities without sending them, please see this [example](charts/nhi-scout/examples/fetch_only)
 
