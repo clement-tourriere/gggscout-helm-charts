@@ -116,6 +116,36 @@ it will take precedence over registry defined in image.
 {{- end -}}
 
 {{/*
+{{ include "nhi-scout.caBundle.image" }}
+Return the proper nhi-scout caBundle image name.
+Image schema:
+  image:
+    registry: ""
+    name: ""
+    tag: ""
+By default , concatenate values like this "<registry>/<name>:<tag>", but if global.imageRegistry is defined,
+it will take precedence over registry defined in image.
+*/}}
+{{- define "nhi-scout.caBundle.image" -}}
+{{- $registry := .Values.caBundle.image.registry -}}
+{{- $name := .Values.caBundle.image.name -}}
+{{- $tag := (default .Chart.AppVersion .Values.caBundle.image.tag) | toString -}}
+{{- with .Values.global -}}
+  {{- if .imageRegistry -}}
+    {{- $registry = .imageRegistry -}}
+  {{- end -}}
+{{- end -}}
+{{- if $registry -}}
+  {{- $name = printf "%s/%s" $registry $name -}}
+{{- end -}}
+{{- if hasPrefix "sha256:" $tag -}}
+  {{- printf "%s@%s" $name $tag -}}
+{{- else -}}
+  {{- printf "%s:%s" $name $tag -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return the proper Docker Image Registry Secret Names evaluating values as templates, and following these rules:
 - Include all existing secret names defined in global.imagePullSecrets:
   global:
@@ -167,4 +197,3 @@ imagePullSecrets
 {{- define "nhi-scout.imagePullSecrets" -}}
     {{ include "nhi-scout.common.imagePullSecrets" ( dict "images" (list $.Values.image) "context" $) }}
 {{- end -}}
-
