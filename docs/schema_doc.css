@@ -189,7 +189,7 @@ body {
   background-color: #f7faff;
 }
 
-.badge.value-type, .badge.no-additional, .badge.badge-warning {
+.badge.value-type, .badge.no-additional, .badge.badge-warning, .badge.badge-danger {
     font-size: 0.75rem;
     padding: 0.5rem;
 }

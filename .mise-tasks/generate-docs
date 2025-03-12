@@ -3,6 +3,6 @@ set -euo pipefail
 IFS=$'\n\t'
 
 cd docs
-generate-schema-doc ../schemas/inventory-config.schema.json --config-file config_schema.json --deprecated-from-description
+generate-schema-doc ../schemas/inventory-config.schema.json --config-file config_schema.yaml --deprecated-from-description
 mv schema_doc.html index.html
 cd ..
