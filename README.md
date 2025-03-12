@@ -24,7 +24,8 @@ inventory:
         type: hashicorpvault
         vault_address: "https://your-vault-address-here"
         # Token configuration can be read from environment variables like so:
-        auth_token: "${HASHICORP_VAULT_TOKEN}"
+        auth.auth_mode: "token"
+        auth.token: "${HASHICORP_VAULT_TOKEN}"
         fetch_all_versions: true
         path: "secret/"
       gitlabci:
