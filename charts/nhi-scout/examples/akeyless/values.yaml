@@ -5,6 +5,7 @@ inventory:
   config:
     sources:
       akeyless:
+        api_url: https://api.akeyless.io/ # If you use a gateway, change this url to the Gateway API address => `https://my-akeyless-gw.com/api/v2/`
         type: akeyless
         fetch_all_versions: true
         auth_mode: "apikey" # We only support apikey auth mode for the moment
