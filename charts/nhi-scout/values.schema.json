@@ -65,6 +65,136 @@
             "personal"
           ]
         },
+        "AuthMode": {
+          "oneOf": [
+            {
+              "title": "Token",
+              "description": "Pass a token string to authenticate",
+              "type": "object",
+              "required": [
+                "auth_mode",
+                "token"
+              ],
+              "minProperties": 2,
+              "properties": {
+                "auth_mode": {
+                  "enum": [
+                    "token"
+                  ]
+                },
+                "token": {
+                  "type": "string",
+                  "minLength": 0
+                }
+              }
+            },
+            {
+              "title": "Token file path",
+              "description": "Pass a file containing a token string to authenticate",
+              "type": "object",
+              "required": [
+                "auth_mode",
+                "token_file"
+              ],
+              "minProperties": 2,
+              "properties": {
+                "auth_mode": {
+                  "enum": [
+                    "token_file"
+                  ]
+                },
+                "token_file": {
+                  "type": "string",
+                  "minLength": 0
+                }
+              }
+            },
+            {
+              "title": "Kubernetes authentication",
+              "description": "Use k8s authentication. If gg-scout is running outside a K8s cluster, it uses the kubeconfig file, otherwise it uses an in-cluster K8s client",
+              "type": "object",
+              "required": [
+                "auth_mode",
+                "role",
+                "service_account"
+              ],
+              "minProperties": 3,
+              "properties": {
+                "auth_mode": {
+                  "enum": [
+                    "k8s"
+                  ]
+                },
+                "mount": {
+                  "description": "HashiCorp login mount point. By default, \"kubernetes\"",
+                  "default": "kubernetes",
+                  "type": "string",
+                  "minLength": 0
+                },
+                "namespace": {
+                  "description": "Kubernetes namespace where service account is defined",
+                  "type": "string",
+                  "minLength": 0,
+                  "nullable": true
+                },
+                "role": {
+                  "description": "HashiCorp Role to be used for authentication",
+                  "type": "string",
+                  "minLength": 0
+                },
+                "service_account": {
+                  "description": "Kubernetes service account used for authentication",
+                  "type": "string",
+                  "minLength": 0
+                },
+                "token_expiration_seconds": {
+                  "description": "Token expiration time in second. Default to 30 minutes",
+                  "default": 1800,
+                  "type": "integer",
+                  "multipleOf": 1
+                }
+              }
+            }
+          ]
+        },
+        "Env": {
+          "description": "Declare an environment",
+          "oneOf": [
+            {
+              "title": "production",
+              "description": "aliases accepted: `prod` and `prd`",
+              "enum": [
+                "production"
+              ]
+            },
+            {
+              "title": "pre-production",
+              "description": "aliases accepted: `pre-prod`, `preprod` and `preproduction`",
+              "enum": [
+                "pre-production"
+              ]
+            },
+            {
+              "title": "staging",
+              "enum": [
+                "staging"
+              ]
+            },
+            {
+              "title": "testing",
+              "enum": [
+                "testing"
+              ]
+            },
+            {
+              "title": "development",
+              "description": "aliases accepted: `dev` and `local`",
+              "enum": [
+                "development"
+              ]
+            }
+          ]
+        },
         "FetcherConfig": {
           "oneOf": [
             {
@@ -83,14 +213,23 @@
                     "hashicorpvault"
                   ]
                 },
+                "auth": {
+                  "description": "Authentication method. If no authentication method is provided `VAULT_TOKEN` env variable is used as a default token",
+                  "default": {
+                    "auth_mode": "token",
+                    "token": "token from VAULT_TOKEN env"
+                  },
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/AuthMode"
+                },
                 "auth_token": {
+                  "description": "[Deprecated - Use `auth.auth_method = \"token\"` and `auth.token = \"my_token\"` instead]",
+                  "deprecated": true,
                   "type": "string",
                   "minLength": 0,
                   "nullable": true
                 },
-                "auth_token_file": {
-                  "type": "string",
-                  "minLength": 0,
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
                   "nullable": true
                 },
                 "exclude": {
@@ -138,6 +277,7 @@
               "type": "object",
               "oneOf": [
                 {
+                  "title": "KubeConfig File",
                   "type": "object",
                   "required": [
                     "config_source"
@@ -168,6 +308,7 @@
                   }
                 },
                 {
+                  "title": "InCluster",
                   "type": "object",
                   "required": [
                     "config_source",
@@ -181,7 +322,7 @@
                       ]
                     },
                     "name": {
-                      "description": "Kubernetes cluster namecause it cannot be retrieved with the Kubernetes API",
+                      "description": "Kubernetes cluster name is mandatory because it cannot be retrieved with the Kubernetes API",
                       "type": "string",
                       "minLength": 0
                     }
@@ -197,6 +338,10 @@
                   "enum": [
                     "k8s"
                   ]
+                },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
                 },
                 "exclude": {
                   "type": "array",
@@ -240,6 +385,10 @@
                   "enum": [
                     "awssecretsmanager"
                   ]
+                },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
                 },
                 "exclude": {
                   "type": "array",
@@ -300,6 +449,10 @@
                     "gcpsecretmanager"
                   ]
                 },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
+                },
                 "exclude": {
                   "type": "array",
                   "minItems": 0,
@@ -358,6 +511,10 @@
                     "azurekeyvault"
                   ]
                 },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
+                },
                 "exclude": {
                   "type": "array",
                   "minItems": 0,
@@ -406,6 +563,10 @@
                   "enum": [
                     "gitlabci"
                   ]
+                },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
                 },
                 "exclude": {
                   "type": "array",
@@ -512,6 +673,10 @@
                     "conjurcloud"
                   ]
                 },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
+                },
                 "exclude": {
                   "type": "array",
                   "minItems": 0,
@@ -593,6 +758,17 @@
                   "default": "regular",
                   "$ref": "#/definitions/inventory-config.schema.json/definitions/Accessibility"
                 },
+                "api_url": {
+                  "description": "Akeyless API v2 URL. Default to https://api.akeyless.io/. If you use an Akeyless Gateway, you must use the complete URL. Example: https://my-akeyless-gw.com/api/v2/",
+                  "default": "https://api.akeyless.io/",
+                  "type": "string",
+                  "format": "uri",
+                  "minLength": 0
+                },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
+                },
                 "exclude": {
                   "type": "array",
                   "minItems": 0,
@@ -662,6 +838,10 @@
                   "enum": [
                     "delineasecretserver"
                   ]
+                },
+                "env": {
+                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
+                  "nullable": true
                 },
                 "exclude": {
                   "type": "array",
@@ -738,6 +918,7 @@
               "title": "Hostname or endpoint",
               "description": "Example: https://gitguardian.internal/",
               "type": "string",
+              "format": "uri",
               "minLength": 0
             }
           }
@@ -785,7 +966,7 @@
       }
     },
     "inventory-log-level.schema.json": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
+      "$schema": "https://json-schema.org/draft/2019-09/schema",
       "title": "LogLevel",
       "enum": [
         "trace",

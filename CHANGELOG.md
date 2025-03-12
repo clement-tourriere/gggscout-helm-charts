@@ -1,3 +1,14 @@
+## nhi-scout-0.3.0 (2025-03-12)
+
+### Feat
+
+- **ca**: improve CA certificates handling
+
+### Fix
+
+- doc generation
+- **chart**: remove uri constraint on endpoint to allow variables
+
 ## nhi-scout-0.2.1 (2025-02-18)
 
 ### Feat

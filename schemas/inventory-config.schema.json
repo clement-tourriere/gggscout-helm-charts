@@ -24,6 +24,135 @@
         "personal"
       ]
     },
+    "AuthMode": {
+      "oneOf": [
+        {
+          "title": "Token",
+          "description": "Pass a token string to authenticate",
+          "type": "object",
+          "required": [
+            "auth_mode",
+            "token"
+          ],
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "token"
+              ]
+            },
+            "token": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "title": "Token file path",
+          "description": "Pass a file containing a token string to authenticate",
+          "type": "object",
+          "required": [
+            "auth_mode",
+            "token_file"
+          ],
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "token_file"
+              ]
+            },
+            "token_file": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "title": "Kubernetes authentication",
+          "description": "Use k8s authentication. If gg-scout is running outside a K8s cluster, it uses the kubeconfig file, otherwise it uses an in-cluster K8s client",
+          "type": "object",
+          "required": [
+            "auth_mode",
+            "role",
+            "service_account"
+          ],
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "k8s"
+              ]
+            },
+            "mount": {
+              "description": "HashiCorp login mount point. By default, \"kubernetes\"",
+              "default": "kubernetes",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "Kubernetes namespace where service account is defined",
+              "type": "string",
+              "nullable": true
+            },
+            "role": {
+              "description": "HashiCorp Role to be used for authentication",
+              "type": "string"
+            },
+            "service_account": {
+              "description": "Kubernetes service account used for authentication",
+              "type": "string"
+            },
+            "token_expiration_seconds": {
+              "description": "Token expiration time in second. Default to 30 minutes",
+              "default": 1800,
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "Env": {
+      "description": "Declare an environment",
+      "oneOf": [
+        {
+          "title": "production",
+          "description": "aliases accepted: `prod` and `prd`",
+          "type": "string",
+          "enum": [
+            "production"
+          ]
+        },
+        {
+          "title": "pre-production",
+          "description": "aliases accepted: `pre-prod`, `preprod` and `preproduction`",
+          "type": "string",
+          "enum": [
+            "pre-production"
+          ]
+        },
+        {
+          "title": "staging",
+          "type": "string",
+          "enum": [
+            "staging"
+          ]
+        },
+        {
+          "title": "testing",
+          "type": "string",
+          "enum": [
+            "testing"
+          ]
+        },
+        {
+          "title": "development",
+          "description": "aliases accepted: `dev` and `local`",
+          "type": "string",
+          "enum": [
+            "development"
+          ]
+        }
+      ]
+    },
     "FetcherConfig": {
       "oneOf": [
         {
@@ -36,12 +165,22 @@
             "vault_address"
           ],
           "properties": {
+            "auth": {
+              "description": "Authentication method. If no authentication method is provided `VAULT_TOKEN` env variable is used as a default token",
+              "default": {
+                "auth_mode": "token",
+                "token": "token from VAULT_TOKEN env"
+              },
+              "$ref": "#/definitions/AuthMode"
+            },
             "auth_token": {
+              "description": "[Deprecated - Use `auth.auth_method = \"token\"` and `auth.token = \"my_token\"` instead]",
+              "deprecated": true,
               "type": "string",
               "nullable": true
             },
-            "auth_token_file": {
-              "type": "string",
+            "env": {
+              "$ref": "#/definitions/Env",
               "nullable": true
             },
             "exclude": {
@@ -88,6 +227,7 @@
           "type": "object",
           "oneOf": [
             {
+              "title": "KubeConfig File",
               "type": "object",
               "required": [
                 "config_source"
@@ -115,6 +255,7 @@
               }
             },
             {
+              "title": "InCluster",
               "type": "object",
               "required": [
                 "config_source",
@@ -128,7 +269,7 @@
                   ]
                 },
                 "name": {
-                  "description": "Kubernetes cluster namecause it cannot be retrieved with the Kubernetes API",
+                  "description": "Kubernetes cluster name is mandatory because it cannot be retrieved with the Kubernetes API",
                   "type": "string"
                 }
               }
@@ -138,6 +279,10 @@
             "type"
           ],
           "properties": {
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -177,6 +322,10 @@
             "type"
           ],
           "properties": {
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -228,6 +377,10 @@
             "type"
           ],
           "properties": {
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -278,6 +431,10 @@
             "type"
           ],
           "properties": {
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -321,6 +478,10 @@
             "url"
           ],
           "properties": {
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -417,6 +578,10 @@
             "type"
           ],
           "properties": {
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -490,6 +655,16 @@
               "default": "regular",
               "$ref": "#/definitions/Accessibility"
             },
+            "api_url": {
+              "description": "Akeyless API v2 URL. Default to https://api.akeyless.io/. If you use an Akeyless Gateway, you must use the complete URL. Example: https://my-akeyless-gw.com/api/v2/",
+              "default": "https://api.akeyless.io/",
+              "type": "string",
+              "format": "uri"
+            },
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -553,6 +728,10 @@
             "type"
           ],
           "properties": {
+            "env": {
+              "$ref": "#/definitions/Env",
+              "nullable": true
+            },
             "exclude": {
               "type": "array",
               "items": {
@@ -624,7 +803,8 @@
         "endpoint": {
           "title": "Hostname or endpoint",
           "description": "Example: https://gitguardian.internal/",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         }
       }
     },
