@@ -7,10 +7,11 @@ inventory:
       hashicorpvault:
         type: hashicorpvault
         vault_address: https://vault.example.com # Replace with the actual Vault address
-        auth.auth_mode: "k8s"
-        auth.role: "vault_k8s_role" # Replace with the HashiCorp/kubernetes role to use during authentication
-        auth.service_account: "k8s_service_account" # Replace with the k8s service account to use
-        auth.namespace: null # Replace with the namespace that contains the service account or null if it's the same as the current one
+        auth:
+          auth_mode: "k8s"
+          role: "vault_k8s_role" # Replace with the HashiCorp/kubernetes role to use during authentication
+          service_account: "k8s_service_account" # Replace with the k8s service account to use
+          namespace: null # Replace with the namespace that contains the service account or null if it's the same as the current one
         fetch_all_versions: false # Fetch all versions of secrets or not
         path: null # Vault path or null
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
